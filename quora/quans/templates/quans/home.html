@@ -13,7 +13,13 @@
         <div class="col-md-9">
             <div class="card-body">
                 <div class="news-content">
+                      
+                    <div class="avatar">
+                        <img alt=""  src="https://www.gravatar.com/avatar/nothing">
+                    </div> 
+                    
                     <a href="{{q.get_absolute_url}}"><h2>{{q.title}}  </h2></a>
+                    <span>by {{q.submitted_by.username}}</span>
                     <p>
                         {{q.body}}
                     </p>

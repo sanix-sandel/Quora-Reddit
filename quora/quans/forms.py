@@ -1,5 +1,5 @@
 from django import forms 
-from .models import Question
+from .models import Question, Answer
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -12,3 +12,15 @@ class QuestionForm(forms.ModelForm):
         if commit:
             question.save()    
         return question    
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model=Answer        
+        fields=('body',)
+
+    def save(self, commit=True):
+        ans=super().save(commit=False)
+        body=self.cleaned_data['body']
+        if commit:
+            ans.save()
+        return ans       

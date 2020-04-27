@@ -15,4 +15,16 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         return reverse('question', args=[self.id])
+
+
+class Answer(models.Model):
+    body=models.TextField()
+    reply_to=models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    submitted_by=models.ForeignKey(User, on_delete=models.CASCADE)
+    submitted_on=models.DateTimeField(auto_now_add=True)
+    replies=models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"reply to {self.reply_to.title}"
+
 # Create your models here.
