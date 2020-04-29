@@ -10,6 +10,9 @@ class Question(models.Model):
                                     on_delete=models.CASCADE)                             
     submitted_on=models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering=('-submitted_on',)
+
     def __str__(self):
         return f"{self.title}"                      
 
@@ -20,9 +23,10 @@ class Question(models.Model):
 class Answer(models.Model):
     body=models.TextField()
     reply_to=models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    submitted_by=models.ForeignKey(User, on_delete=models.CASCADE)
+    submitted_by=models.ForeignKey(User, related_name='user_answers', on_delete=models.CASCADE)
     submitted_on=models.DateTimeField(auto_now_add=True)
     replies=models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
+    user_upvote=models.ManyToManyField(User, related_name='answers_upvoted')
 
     def __str__(self):
         return f"reply to {self.reply_to.title}"

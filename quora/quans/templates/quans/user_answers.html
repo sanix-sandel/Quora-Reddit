@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for a in answers %}
+        <p>{{a.body}}</p>
+        <h8>posted on :{{a.submitted_on}}</h8>
+        <h8>related to:{{a.reply_to.title}} </h8>
+        {% with n=a.user_upvote.count %}
+            <p>upvoted :{{n}} times</p>
+        {% endwith %}
+
+    {% endfor %}
+{% endblock %}

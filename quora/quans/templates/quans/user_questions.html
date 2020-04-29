@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    {% for q in questions %}
+        <h1>{{q.title}}</h1>
+        <h8>posted on :{{q.submitted_on}}<br/></h8>
+        {% with nbr_of_ans=q.answers.count  %}    
+            <h8>{{nbr_of_ans}} answers</h8>
+        {% endwith %}
+        <p>{{q.body}}</p>
+
+    {% endfor %}
+{% endblock %}

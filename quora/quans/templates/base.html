@@ -36,7 +36,23 @@
                     NewQ
                 <span class="sr-only">(current)</span>
             </a>
-        </li>    
+        </li>  
+        {% if request.user.is_authenticated %} 
+            <li>
+                <a class="nav-link" href="{% url "user_questions" %}">
+                    <i class=""></i>
+                        My questions
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>   
+            <li>
+                <a class="nav-link" href="{% url "user_answers" %}">
+                    <i class=""></i>
+                        My Answers
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>    
+        {% endif %}
        
         
       </ul>
@@ -45,6 +61,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url "logout" %}">
                     Logout
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url "logout" %}">
+                    Profile
                 </a>
             </li>
         </ul>

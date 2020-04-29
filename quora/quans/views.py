@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Question
+from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
 
 def home(request):
@@ -37,5 +37,27 @@ def submitq(request):
             return redirect (newq.get_absolute_url())
     else:
         form=QuestionForm(request.GET)
-    return render(request, 'quans/submission.html', {'form':form})            
+    return render(request, 'quans/submission.html', {'form':form})   
+
+def upvote(request, id, action):
+    answer=get_object_or_404(Answer, id=id)
+    if action=='like':
+        answer.user_upvote.add(request.user)
+        answer.save()
+    return redirect('home')
+     
+
+def user_questions(request):                     
+    user=request.user
+    questions=user.questions_submitted.all()
+    return render(request,
+                 'quans/user_questions.html',
+                  {'questions':questions})
+    
+
+def user_answers(request):
+    user=request.user
+    answers=user.user_answers.all()
+    return render(request, 'quans/user_answers.html',
+                 {'answers':answers})   
 # Create your views here.

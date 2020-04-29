@@ -15,8 +15,8 @@
         <div class="news-author">
             <ul class="list-inline list-unstyled">
                 <li class="list-inline-item text-secondary">
-                    <i class="fa fa-heart"></i>
-                    Upvote
+                    <i class="fa fa-eye"></i>
+                
                 </li>
                 <li class="list-inline-item text-secondary">
                     <i class="fa fa-share-square"></i>
@@ -29,7 +29,24 @@
     </div>
 </div>
 {% for a in ans %}
-    <p>{{a.body}}</p>
+    
+    <div class="card-body">
+        <p>{{a.body}}</p>
+        <span>replied by:{{a.submitted_by.username}}</span>
+        <div class="news-author">
+            <a href="{% url "user_upvote" id=a.id action='like' %}">
+                <ul class="list-inline list-unstyled">
+                    <li class="list-inline-item text-secondary">
+                        <i class="fa fa-heart"></i>
+                        {% with n=a.user_upvote.count %}
+                            <p>{{n}}</p>
+                        {% endwith %}
+                    </li>
+                </ul>
+            </a>
+                
+        </div>   
+    </div>
 {% empty %}
 No answer yet .
 {% endfor %}
