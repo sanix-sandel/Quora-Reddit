@@ -32,9 +32,9 @@
                   <a class="nav-link" href="#"><i class="fa fa-bell"></i> Notifications</a>
                </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0 col-md-5">
-               <input class="myform-control mr-sm-2" type="search" placeholder="Search Quora" aria-label="Search">
-               <button class="btn btn-light"><i class="fa fa-search"></i></button>
+            <form class="form-inline my-2 my-lg-0 col-md-5" action="{% url "search" %}" method="get">
+               <input name="q" class="myform-control mr-sm-2" type="text" placeholder="Search Quora">
+
             </form>
             <ul class="navbar-nav ml-auto">
                <li>

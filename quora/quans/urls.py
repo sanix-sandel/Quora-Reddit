@@ -8,4 +8,5 @@ urlpatterns=[
     path('myanswers/', views.user_answers, name='user_answers'),
     path('upvote/<int:id>/<str:action>/', views.upvote, name='user_upvote'),
     path('submission/', views.submitq, name='submit'),
+    path('search/', views.searchquestions.as_view(), name='search'),
 ]
