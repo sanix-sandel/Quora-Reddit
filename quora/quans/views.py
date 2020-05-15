@@ -2,14 +2,23 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class home(ListView):
+    model=Question
+    context_object_name='questions'
+    template_name='quans/home.html'
 
 
-def home(request):
-    questions=Question.objects.all()
-    context={'questions':questions}
-    return render(request, 'quans/home.html', context)
+
+class OwnerMixin():
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.filter(submitted_by=self.request.user)
+
 
 
 def question(request, id):
@@ -29,19 +38,37 @@ def question(request, id):
     return render(request, 'quans/question.html',
                  {'q':question, 'ans':ans, 'form':form})
 
-@login_required
-def submitq(request):
-    if request.method=="POST":
-        form=QuestionForm(request.POST)
-        if form.is_valid():
-            newq=form.save(commit=False)
-            newq.submitted_by=request.user
-            newq.save()
-            return redirect (newq.get_absolute_url())
-    else:
-        form=QuestionForm(request.GET)
-    return render(request, 'quans/submission.html', {'form':form})
 
+
+
+class submitq(LoginRequiredMixin, CreateView):
+    model=Question
+    fields=['title', 'body']
+    template_name='quans/submission.html'
+    success_url=reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.submitted_by=self.request.user
+        return super().form_valid(form)
+
+
+class editq(OwnerMixin, LoginRequiredMixin, UpdateView):
+    model=Question
+    fields=['title', 'body']
+    template_name='quans/submission.html'
+    success_url=reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.submitted_by=self.request.user
+        return super().form_valid(form)
+
+class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
+    model=Question
+    success_url=reverse_lazy('user_questions')
+    template_name='quans/deleteq.html'
+
+
+@login_required
 def upvote(request, id, action):
     answer=get_object_or_404(Answer, id=id)
     if action=='like':
@@ -50,19 +77,20 @@ def upvote(request, id, action):
     return redirect('home')
 
 
-def user_questions(request):
-    user=request.user
-    questions=user.questions_submitted.all()
-    return render(request,
-                 'quans/user_questions.html',
-                  {'questions':questions})
+class user_questions(OwnerMixin, LoginRequiredMixin, ListView):
+    model=Question
+    context_object_name='questions'
+    template_name='quans/user_questions.html'
 
 
+@login_required
 def user_answers(request):
     user=request.user
     answers=user.user_answers.all()
     return render(request, 'quans/user_answers.html',
                  {'answers':answers})
+
+
 
 class searchquestions(ListView):
     model=Question

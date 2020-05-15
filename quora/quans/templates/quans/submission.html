@@ -1,10 +1,16 @@
 {% extends "base.html" %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-    
-    <h1>New Submission</h1>
+    {% if object %}
+
+      <h1><mark>Edit the question</mark></h1>
+    {% else %}
+      <h1><mark>New Question</mark></h1>
+    {% endif %}
+
+
     <form action="" method="post">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <input type="submit" value="Submit" />
     </form>
 {% endblock %}

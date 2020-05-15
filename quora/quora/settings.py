@@ -31,14 +31,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',
-    'quans.apps.QuansConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+
+    'crispy_forms',
+
+    'accounts.apps.AccountsConfig',
+    'quans.apps.QuansConfig',
+
+
 ]
 
 MIDDLEWARE = [
@@ -128,3 +135,6 @@ MEDIA_URL='/media/'
 LOGIN_REDIRECT_URL='login'
 LOGIN_URL='login'
 LOGOUT_URL='logout'
+
+
+CRISPY_TEMPLATE_PACK='bootstrap4'

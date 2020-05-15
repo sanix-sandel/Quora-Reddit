@@ -1,12 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
     {% for q in questions %}
-        <h1>{{q.title}}</h1>
-        <h8>posted on :{{q.submitted_on}}<br/></h8>
-        {% with nbr_of_ans=q.answers.count  %}    
-            <h8>{{nbr_of_ans}} answers</h8>
-        {% endwith %}
-        <p>{{q.body}}</p>
+
+        <div class="ui-block">
+         <article class="hentry post">
+            <div class="m-link">
+               <a href="#"  target="_blank">
+                  <a href="{{ q.get_absolute_url }}"><h4>{{q.title}}</h4></a>
+               </a>
+            </div>
+            <div class="post__author author vcard inline-items">
+               <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
+               <div class="author-date">
+                  <a class="h6 post__author-name fn" href="#">{{submitted_by.username}}</a>
+                  <div class="post__date">
+                     <time class="published" datetime="2004-07-24T18:18">
+                     Posted :{{q.submitted_on}}
+                     </time>
+                  </div>
+                  {% with nbr_of_ans=q.answers.count  %}
+                      <h8>{{nbr_of_ans}} answers</h8>
+                  {% endwith %}
+               </div>
+               <div class="more">
+                  <a href="#">
+                  <i class="fa fa-ellipsis-v"></i>
+                  </a>
+               </div>
+            </div>
+            <p>
+              {{q.body}}
+            </p>
+            <div class="post-additional-info inline-items">
+               <p>
+
+                  <a href="{% url 'editq' q.pk %}" class="btn btn-sm btn-light"><i class="fa fa-pencil-square-o"></i> Reformuler</a>
+                  <a href="{% url 'deleteq' q.pk %}" class="btn btn-sm btn-light"><i class="fa fa-trash"></i> Delete</a>
+               </p>
+               <p class="social-icons">
+                  <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-twitter"></i></a>
+                  <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-share"></i></a>
+               </p>
+            </div>
+         </article>
+       </div>
+
+
+
 
     {% endfor %}
+
 {% endblock %}
