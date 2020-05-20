@@ -14,5 +14,6 @@ urlpatterns=[
     path('search/', views.searchquestions.as_view(), name='search'),
     path('create_group/', views.GroupView.as_view(), name='create_group'),
     path('groups/', views.GroupList.as_view(), name='list_groups'),
+    path('mygroups/', views.UserGroup.as_view(), name='user_groups'),
     path('group/<int:id>/<str:action>/', views.join_or_leave, name='join_or_leave'),
 ]

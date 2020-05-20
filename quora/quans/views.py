@@ -121,14 +121,28 @@ class GroupView(LoginRequiredMixin, CreateView):
     success_url=reverse_lazy('home')
 
     def form_valid(self, form):
-        form.instance.owner=self.request.user
-        return super().form_valid(form)
+        try:
+            form.instance.owner=self.request.user
+            return super().form_valid(form)
+        except:
+            return redirect('home')
 
 
 class GroupList(LoginRequiredMixin, ListView):
     model=Group
     context_object_name='groups'
     template_name='quans/groups_list.html'
+
+
+class UserGroup(LoginRequiredMixin, ListView):
+    model=Group
+    template_name='quans/mygroups.html'
+    context_object_name='groups'
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.filter(members__in=[self.request.user])
+
 
 def join_or_leave(request, id, action):
     group=get_object_or_404(Group, id=id)

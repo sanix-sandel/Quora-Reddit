@@ -63,7 +63,7 @@ ROOT_URLCONF = 'quora.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +132,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
 
 
-LOGIN_REDIRECT_URL='login'
+LOGIN_REDIRECT_URL='home'
 LOGIN_URL='login'
 LOGOUT_URL='logout'
 
