@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="ui-block">
+ <article class="hentry post">
+    <div class="m-link">
+
+        <h4>{{groupe.title}}</h4>
+
+    </div>
+    <div class="post__author author vcard inline-items">
+       <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
+       <div class="author-date">
+         Created by
+          <a class="h6 post__author-name fn" href="#"> {{groupe.owner.username}}</a>
+          <div class="post__date">
+             <time class="published" datetime="2004-07-24T18:18">
+             #
+             </time>
+          </div>
+       </div>
+       <div class="more">
+          <a href="#">
+          <i class="fa fa-ellipsis-v"></i>
+          </a>
+       </div>
+    </div>
+    <p>
+      {{groupe.description}}
+
+    </p>
+    <div class="post-additional-info inline-items">
+       <p>
+
+          <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> </a>
+       </p>
+       <p class="social-icons">
+          <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>
+          <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-twitter"></i></a>
+          <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-share"></i></a>
+       </p>
+    </div>
+ </article>
+</div>
+<form action="" method="post">{% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

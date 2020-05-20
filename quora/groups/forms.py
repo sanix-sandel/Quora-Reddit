@@ -4,7 +4,7 @@ from django import forms
 class GroupeForm(forms.ModelForm):
     class Meta:
         model=Groupe
-        fields=('title',)
+        fields=('title', 'description',)
 
     def save(self, commit=True):
         group=super().save(commit=False)
