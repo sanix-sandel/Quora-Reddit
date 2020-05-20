@@ -175,5 +175,9 @@ def join_or_leave(request, id, action):
     return redirect('home')
 
 
-#
-#
+#add member
+#remove member
+#approve_membership request
+#approve member's post(ask question)
+#delete_group
+#update_group
