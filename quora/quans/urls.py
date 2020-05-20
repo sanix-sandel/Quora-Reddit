@@ -12,8 +12,5 @@ urlpatterns=[
     path('editq/<int:pk>', views.editq.as_view(), name='editq'),
     path('deleteq/<int:pk>', views.deleteq.as_view(), name='deleteq'),
     path('search/', views.searchquestions.as_view(), name='search'),
-    path('create_group/', views.GroupeCreateView.as_view(), name='create_group'),
-    path('groups/', views.GroupeList.as_view(), name='list_groups'),
-    path('mygroups/', views.UserGroupe.as_view(), name='user_groups'),
-    path('group/<int:id>/<str:action>/', views.join_or_leave, name='join_or_leave'),
+
 ]

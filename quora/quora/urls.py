@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('quans.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('groups/', include('groups.urls')),
 ]
 
 if settings.DEBUG:

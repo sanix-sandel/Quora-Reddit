@@ -32,11 +32,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return f"reply to {self.reply_to.title}"
-
-class Groupe(models.Model):
-    title=models.CharField(max_length=50)
-    owner=models.OneToOneField(User, related_name='his_group', on_delete=models.CASCADE)
-    members=models.ManyToManyField(User, related_name='a_group', blank=True)
-
-    def __str__(self):
-        return f'{self.title}'
