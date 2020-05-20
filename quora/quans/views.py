@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Question, Answer, Group
+from .models import Question, Answer, Groupe
 from .forms import QuestionForm, AnswerForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 
 class home(ListView):
     model=Question
@@ -62,6 +63,18 @@ class editq(OwnerMixin, LoginRequiredMixin, UpdateView):
         form.instance.submitted_by=self.request.user
         return super().form_valid(form)
 
+@login_required
+def retwitter(request, qi):
+    q=get_object_or_404(Question, id=qi)
+
+    try:
+        q.retwitters.add(request.user)
+        q.save()
+        return redirect('home')
+    except:
+        return redirect('home')
+
+
 class edita(OwnerMixin, LoginRequiredMixin, UpdateView):
     model=Answer
     fields=('body',)
@@ -93,6 +106,7 @@ class user_questions(OwnerMixin, LoginRequiredMixin, ListView):
     template_name='quans/user_questions.html'
 
 
+
 @login_required
 def user_answers(request):
     user=request.user
@@ -114,8 +128,8 @@ class searchquestions(ListView):
         )
 
 
-class GroupView(LoginRequiredMixin, CreateView):
-    model=Group
+class GroupeCreateView(LoginRequiredMixin, CreateView):
+    model=Groupe
     fields=['title']
     template_name='quans/create_group.html'
     success_url=reverse_lazy('home')
@@ -123,33 +137,43 @@ class GroupView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         try:
             form.instance.owner=self.request.user
+            #retrieve a group and assign the creator to the group of
+            #admins
+            groupe, created=Group.objects.get_or_create(name='groups_admins')
+            self.request.user.groups.add(groupe)
             return super().form_valid(form)
         except:
             return redirect('home')
 
 
-class GroupList(LoginRequiredMixin, ListView):
-    model=Group
+class GroupeList(LoginRequiredMixin, ListView):
+    model=Groupe
     context_object_name='groups'
     template_name='quans/groups_list.html'
 
 
-class UserGroup(LoginRequiredMixin, ListView):
-    model=Group
+class UserGroupe(LoginRequiredMixin, ListView):
+    model=Groupe
     template_name='quans/mygroups.html'
     context_object_name='groups'
 
     def get_queryset(self):
         qs=super().get_queryset()
-        return qs.filter(members__in=[self.request.user])
+        return qs.filter(members__in=[self.request.user] or owner==self.request.user)
 
 
 def join_or_leave(request, id, action):
-    group=get_object_or_404(Group, id=id)
+    groupe=get_object_or_404(Groupe, id=id)
     if action=='join':
-        group.members.add(request.user)
-        group.save()
+        groupe.members.add(request.user)
+        group, created=Group.objects.get_or_create(name='groups_members')
+        request.user.groups.add(group)
+        groupe.save()
     else:
-        group.members.remove(request.user)
-        group.save()
+        groupe.members.remove(request.user)
+        groupe.save()
     return redirect('home')
+
+
+#
+#

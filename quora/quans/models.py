@@ -9,6 +9,8 @@ class Question(models.Model):
     submitted_by=models.ForeignKey(User, related_name='questions_submitted',
                                     on_delete=models.CASCADE)
     submitted_on=models.DateTimeField(auto_now_add=True)
+    retwitters=models.ManyToManyField(User, related_name='questions_retwitted', blank=True)
+
 
     class Meta:
         ordering=('-submitted_on',)
@@ -31,7 +33,7 @@ class Answer(models.Model):
     def __str__(self):
         return f"reply to {self.reply_to.title}"
 
-class Group(models.Model):
+class Groupe(models.Model):
     title=models.CharField(max_length=50)
     owner=models.OneToOneField(User, related_name='his_group', on_delete=models.CASCADE)
     members=models.ManyToManyField(User, related_name='a_group', blank=True)

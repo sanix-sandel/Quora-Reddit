@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Answer, Group
+from .models import Question, Answer, Groupe
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -25,9 +25,9 @@ class AnswerForm(forms.ModelForm):
             ans.save()
         return ans
 
-class GroupForm(forms.ModelForm):
+class GroupeForm(forms.ModelForm):
     class Meta:
-        model=Group
+        model=Groupe
         fields=('title',)
 
     def save(self, commit=True):
