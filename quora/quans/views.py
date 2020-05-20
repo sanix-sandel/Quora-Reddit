@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Question, Answer
+from .models import Question, Answer, Group
 from .forms import QuestionForm, AnswerForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
@@ -62,6 +62,16 @@ class editq(OwnerMixin, LoginRequiredMixin, UpdateView):
         form.instance.submitted_by=self.request.user
         return super().form_valid(form)
 
+class edita(OwnerMixin, LoginRequiredMixin, UpdateView):
+    model=Answer
+    fields=('body',)
+    template_name='quans/edita.html'
+    success_url=reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.submitted_by=self.request.user
+        return super().form_valid(form)
+
 class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
     model=Question
     success_url=reverse_lazy('user_questions')
@@ -74,7 +84,7 @@ def upvote(request, id, action):
     if action=='like':
         answer.user_upvote.add(request.user)
         answer.save()
-    return redirect('home')
+    return redirect('question', id=answer.reply_to.id)
 
 
 class user_questions(OwnerMixin, LoginRequiredMixin, ListView):
@@ -102,4 +112,30 @@ class searchquestions(ListView):
         return Question.objects.filter(
             Q(title__contains=query)|Q(title__icontains=query)
         )
-# Create your views here.
+
+
+class GroupView(LoginRequiredMixin, CreateView):
+    model=Group
+    fields=['title']
+    template_name='quans/create_group.html'
+    success_url=reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.owner=self.request.user
+        return super().form_valid(form)
+
+
+class GroupList(LoginRequiredMixin, ListView):
+    model=Group
+    context_object_name='groups'
+    template_name='quans/groups_list.html'
+
+def join_or_leave(request, id, action):
+    group=get_object_or_404(Group, id=id)
+    if action=='join':
+        group.members.add(request.user)
+        group.save()
+    else:
+        group.members.remove(request.user)
+        group.save()
+    return redirect('home')

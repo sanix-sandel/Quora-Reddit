@@ -1,5 +1,5 @@
-from django import forms 
-from .models import Question, Answer
+from django import forms
+from .models import Question, Answer, Group
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -10,12 +10,12 @@ class QuestionForm(forms.ModelForm):
         title=self.cleaned_data['title']
         body=self.cleaned_data['body']
         if commit:
-            question.save()    
-        return question    
+            question.save()
+        return question
 
 class AnswerForm(forms.ModelForm):
     class Meta:
-        model=Answer        
+        model=Answer
         fields=('body',)
 
     def save(self, commit=True):
@@ -23,4 +23,16 @@ class AnswerForm(forms.ModelForm):
         body=self.cleaned_data['body']
         if commit:
             ans.save()
-        return ans       
+        return ans
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model=Group
+        fields=('title',)
+
+    def save(self, commit=True):
+        group=super().save(commit=False)
+        title=self.cleaned_data['title']
+        if commit:
+            group.save()
+        return group
