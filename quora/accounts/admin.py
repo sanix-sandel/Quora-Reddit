@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth import get_user_model
 from .forms import UserCreationForm, UserChangeForm
-
+from .models import Contact
 
 MyUser=get_user_model()
 
@@ -16,8 +16,8 @@ class UserAdmin(BaseUserAdmin):
     fieldsets=(
         (None, {'fields':('username', 'email', 'password')}),
         ('Personnal info', {'fields':('date_of_birth', 'profile_image', 'about')}),
-        ('followers', {'fields':('following',)})
         ('Permissions', {'fields':('is_admin',)}),
+
     )
 
     add_fieldsets=(
@@ -32,3 +32,5 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal=()
 
 admin.site.register(MyUser, UserAdmin)
+
+admin.site.register(Contact)
