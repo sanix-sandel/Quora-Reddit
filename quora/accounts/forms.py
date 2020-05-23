@@ -31,7 +31,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model=get_user_model()
-        fields=('username', 'email', 'password', 'date_of_birth', 'is_active', 'is_admin')
+        fields=('username', 'email', 'date_of_birth', 'about')
 
-    def clean_password(self):
-        return self.initial['password']
+#    def clean_password(self):
+#        return self.initial['password']

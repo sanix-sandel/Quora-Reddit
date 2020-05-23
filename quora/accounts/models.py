@@ -12,7 +12,7 @@ class MyUser(AbstractBaseUser):
     )
     date_of_birth=models.DateField()
     profile_image=models.ImageField(upload_to='profile_pics/', blank=True)
-
+    about=models.TextField()
 
     is_active=models.BooleanField(default=True)
     is_admin=models.BooleanField(default=False)
