@@ -11,6 +11,8 @@ from .forms import UserCreationForm, UserChangeForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import MyUser, Contact
+from actions.models import Action
+
 
 class SignUpView(CreateView):
     form_class=UserCreationForm
@@ -39,3 +41,16 @@ def follow(request, id):
     user1=MyUser.objects.get(id=id)
     Contact.objects.create(user_from=request.user, user_to=user1)
     return redirect('home')#'top_publishers')
+
+
+def notifications(request):
+    #Display all actions by default
+    actions=Action.objects.exclude(user=request.user)
+    following_ids=request.user.following.values_list('id', flat=True)
+
+    if following_ids:
+        #if user is following ohers, retrieve only their actions
+        actions=actions.filter(user_id_in=following_ids)
+    actions=actions[:10]
+
+    return render(request, 'accounts/notifications.html', {'actions':actions})

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'quans.apps.QuansConfig',
     'groups.apps.GroupsConfig',
+    'actions.apps.ActionsConfig',
 
 
 ]

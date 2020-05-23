@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from actions.utils import create_action
+
 
 class home(ListView):
     model=Question
@@ -50,6 +52,8 @@ class submitq(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.submitted_by=self.request.user
+        #action added
+        create_action(self.request.user, 'asked a new question', form.instance)
         return super().form_valid(form)
 
 
