@@ -16,6 +16,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets=(
         (None, {'fields':('username', 'email', 'password')}),
         ('Personnal info', {'fields':('date_of_birth', 'profile_image', 'about')}),
+        ('followers', {'fields':('following',)})
         ('Permissions', {'fields':('is_admin',)}),
     )
 
