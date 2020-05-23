@@ -4,19 +4,23 @@ from django.contrib.auth.models import AbstractBaseUser
 from .managers import MyUserManager
 
 class MyUser(AbstractBaseUser):
+    username=models.CharField(max_length=50)
     email=models.EmailField(
         verbose_name='email_address',
         max_length=250,
         unique=True,
     )
     date_of_birth=models.DateField()
+    profile_image=models.ImageField(upload_to='profile_pics/', blank=True)
+
+
     is_active=models.BooleanField(default=True)
     is_admin=models.BooleanField(default=False)
 
     objects=MyUserManager()
 
     USERNAME_FIELD='email'
-    REQUIRED_FIELDS=['date_of_birth']
+    REQUIRED_FIELDS=['date_of_birth', 'username']
 
     def __str__(self):
         return self.email
