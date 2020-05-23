@@ -14,7 +14,7 @@
           <a class="h6 post__author-name fn" href="#">#</a>
           <div class="post__date">
              <time class="published" datetime="2004-07-24T18:18">
-             <mark>{% with n=user.following.count %}
+             <mark>{% with n=user.followers.count %}
                  {{n}} followers
              {% endwith %}</mark>
              </time>
@@ -32,7 +32,7 @@
     <div class="post-additional-info inline-items">
        <p>
 
-          <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Follow</a>
+          <a href="{% url "follow" id=user.id %}" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Follow</a>
             <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Block</a>
        </p>
        <p class="social-icons">
