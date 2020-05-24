@@ -41,7 +41,7 @@ def follow(request, id):
     user1=MyUser.objects.get(id=id)
     Contact.objects.create(user_from=request.user, user_to=user1)
     return redirect('home')#'top_publishers')
-
+#def unfollow
 
 def notifications(request):
     #Display all actions by default

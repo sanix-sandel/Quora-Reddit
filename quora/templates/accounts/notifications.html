@@ -2,6 +2,6 @@
 {% load crispy_forms_tags %}
 {% block content %}
     {% for action in actions %}
-      {{action.verb}}
+      <p>{{action.user}}  {{action.verb}}  {{action.target}}</p>
     {% endfor %}
 {% endblock %}

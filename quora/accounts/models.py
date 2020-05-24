@@ -13,7 +13,7 @@ class Contact(models.Model):
                                 related_name='rel_to_set',
                                 on_delete=models.CASCADE)
 
-    created=models.DateTimeField(auto_now_add=True, db_index=True)                    
+    created=models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
         ordering=('-created',)
@@ -46,7 +46,7 @@ class MyUser(AbstractBaseUser):
     REQUIRED_FIELDS=['date_of_birth', 'username']
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         #Does the user have a specific permission ?

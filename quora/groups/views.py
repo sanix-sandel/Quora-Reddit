@@ -15,7 +15,7 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from quans.forms import QuestionForm
-
+from django.contrib.contenttypes.models import ContentType
 
 
 class OwnerMixin():
@@ -32,6 +32,7 @@ class GroupeCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         try:
             form.instance.owner=self.request.user
+            #form.instance.owner=self.request.user
             #retrieve a group and assign the creator to the group of
             #admins
             groupe, created=Group.objects.get_or_create(name='groups_admins')
@@ -86,5 +87,5 @@ def GroupeDetail(request, id):
 #approve member's post(ask question)
 #delete_group
 #update_group
-#following another user
+#following another user ok
 #
