@@ -46,11 +46,14 @@ def follow(request, id):
 def notifications(request):
     #Display all actions by default
     actions=Action.objects.exclude(user=request.user)
+    #the id of the user's followings
     following_ids=request.user.following.values_list('id', flat=True)
+    #flat=True means that the returned results are single values rather than
+    #one-tuples
 
     if following_ids:
         #if user is following ohers, retrieve only their actions
-        actions=actions.filter(user_id_in=following_ids)
-    actions=actions[:10]
+        actions=actions.filter(user_id__in=following_ids)
+    actions=actions.select_related('user').prefetch_related('target')[:10]
 
     return render(request, 'accounts/notifications.html', {'actions':actions})

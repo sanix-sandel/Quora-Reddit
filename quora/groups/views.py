@@ -54,7 +54,7 @@ class UserGroupe(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs=super().get_queryset()
-        return qs.filter(member__in=[self.request.user] or owner==self.request.user)
+        return qs.filter(member__in=[self.request.user], owner=self.request.user)
 
 
 def join_or_leave(request, id, action):
