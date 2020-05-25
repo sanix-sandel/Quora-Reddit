@@ -93,11 +93,13 @@ def GroupeDetail(request, id):
 
 
 
-#add member by suggesting him
+#add member by suggestion
 #remove member from a group
+#Create private and public group
 #approve_membership request
+
 #approve member's post(ask question)
 #delete_group
 #update_group
-#following another user ok
+
 #
