@@ -15,6 +15,8 @@ class Groupe(models.Model):
                                 on_delete=models.CASCADE)
     owner_id=models.PositiveIntegerField(null=True, blank=True, db_index=True)
     owner=GenericForeignKey('owner_ct', 'owner_id')
+    #An intermediary model must be added in order to associate the memeber and the group
+    #so we can get information such the date of his joining
     member=models.ManyToManyField(settings.AUTH_USER_MODEL,
                                 related_name='a_group',
                                 blank=True)
