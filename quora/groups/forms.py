@@ -1,14 +1,7 @@
 from django import forms
-
+from .models import Groupe
 
 class GroupeForm(forms.ModelForm):
     class Meta:
         model=Groupe
         fields=('title', 'description',)
-
-    def save(self, commit=True):
-        group=super().save(commit=False)
-        title=self.cleaned_data['title']
-        if commit:
-            group.save()
-        return group

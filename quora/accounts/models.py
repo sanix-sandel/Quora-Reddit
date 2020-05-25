@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth import get_user_model
 from .managers import MyUserManager
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericRelation
+
 
 class Contact(models.Model):
     user_from=models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -32,7 +34,7 @@ class MyUser(AbstractBaseUser):
     date_of_birth=models.DateField()
     profile_image=models.ImageField(upload_to='profile_pics/', blank=True)
     about=models.TextField()
-
+    groupe=GenericRelation("groups.Groupe")
     following=models.ManyToManyField('self', through=Contact,
                                     related_name='followers',
                                     symmetrical=False)

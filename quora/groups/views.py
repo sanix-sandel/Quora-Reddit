@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Groupe
+from .forms import GroupeForm
 from quans.models import Question, Answer
 from quans.forms import QuestionForm, AnswerForm
 from django.views.generic import (
@@ -22,7 +23,7 @@ class OwnerMixin():
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.filter(owner=[self.request.user])
-
+"""
 class GroupeCreateView(LoginRequiredMixin, CreateView):
     model=Groupe
     fields=['title', 'description']
@@ -36,10 +37,30 @@ class GroupeCreateView(LoginRequiredMixin, CreateView):
             #retrieve a group and assign the creator to the group of
             #admins
             groupe, created=Group.objects.get_or_create(name='groups_admins')
+            #ContentType has also model_class() method that returns the model class
+            #represented by this ContentType instance
             self.request.user.groups.add(groupe)
             return super().form_valid(form)
         except:
             return redirect('home')
+"""
+
+@login_required
+def GroupeCreateView(request):
+    if request.method=='POST':
+        form=GroupeForm(request.POST)
+        if form.is_valid():
+            #I put it here because of contentype problem
+            title=form.cleaned_data['title']
+            description=form.cleaned_data['description']
+            owner=request.user
+            new_groupe=Groupe(title=title, description=description,
+                owner=owner
+            )
+            new_groupe.save()
+    else:
+        form=GroupeForm(request.GET)
+    return render(request, 'groups/create_group.html', {'form':form})
 
 
 class GroupeList(LoginRequiredMixin, ListView):
@@ -55,7 +76,7 @@ class UserGroupe(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs=super().get_queryset()
-        return qs.filter(member__in=[self.request.user], owner=self.request.user)
+        return qs.filter(member__in=[self.request.user] or owner==request.user)
 
 
 def join_or_leave(request, id, action):
