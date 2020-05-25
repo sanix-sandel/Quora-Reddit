@@ -43,9 +43,11 @@
                <li>
                   <a href="{% url "submit" %}" id="add-question" class="btn mybtn btn-success">Add Question</a>
                </li>
-               <li class="avatar-profile d-none d-sm-block ">
-                  <a href="#" ><img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" class="img-responsive" /></a>
-               </li>
+              {% if user.is_authenticated %}
+                <li class="avatar-profile d-none d-sm-block ">
+                  <a href="{% url "profile_update" pk=user.id %}" ><img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" class="img-responsive" /></a>
+                </li>
+              {% endif %}
             </ul>
          </div>
       </div>
@@ -92,6 +94,11 @@
                      <a class="nav-link"  data-toggle="pill" href="#"  >Ask your first question</a>
                      <a class="nav-link" data-toggle="pill" href="#"   >Add 3 credentials</a>
                      <a class="nav-link" data-toggle="pill" href="#">Answer a question</a>
+                     {% if user.is_authenticated %}
+                        <a class="nav-link" data-toggle="pill" href="{% url 'logout' %}">Logout</a>
+                     {% else %}
+                          <a class="nav-link" data-toggle="pill" href="{% url 'login' %}">Login</a>
+                     {% endif %}
                   </div>
                </div>
             </div>

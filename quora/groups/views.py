@@ -23,27 +23,7 @@ class OwnerMixin():
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.filter(owner=[self.request.user])
-"""
-class GroupeCreateView(LoginRequiredMixin, CreateView):
-    model=Groupe
-    fields=['title', 'description']
-    template_name='groups/create_group.html'
-    success_url=reverse_lazy('home')
 
-    def form_valid(self, form):
-        try:
-            form.instance.owner=self.request.user
-            #form.instance.owner=self.request.user
-            #retrieve a group and assign the creator to the group of
-            #admins
-            groupe, created=Group.objects.get_or_create(name='groups_admins')
-            #ContentType has also model_class() method that returns the model class
-            #represented by this ContentType instance
-            self.request.user.groups.add(groupe)
-            return super().form_valid(form)
-        except:
-            return redirect('home')
-"""
 
 @login_required
 def GroupeCreateView(request):
@@ -57,7 +37,11 @@ def GroupeCreateView(request):
             new_groupe=Groupe(title=title, description=description,
                 owner=owner
             )
+            #groupe, created=Group.objects.get_or_create(name='groups_admins')
+            #request.user.groups.add(groupe)#add the creator to admin group
             new_groupe.save()
+            new_groupe.member.add(owner)#add the creator as a member
+            #owner.groups.add(groupe)
     else:
         form=GroupeForm(request.GET)
     return render(request, 'groups/create_group.html', {'form':form})
@@ -76,7 +60,7 @@ class UserGroupe(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs=super().get_queryset()
-        return qs.filter(member__in=[self.request.user] or owner==request.user)
+        return qs.filter(member__in=[self.request.user])
 
 
 def join_or_leave(request, id, action):
@@ -84,7 +68,7 @@ def join_or_leave(request, id, action):
     if action=='join':
         groupe.member.add(request.user)
         group, created=Group.objects.get_or_create(name='groups_members')
-        request.user.groups.add(group)
+    #    request.user.groups.add(group) make it
         groupe.save()
     else:
         groupe.member.remove(request.user)
@@ -93,6 +77,7 @@ def join_or_leave(request, id, action):
 
 def GroupeDetail(request, id):
     groupe=get_object_or_404(Groupe, id=id)
+    members=groupe.member.all()
     if request.method=='POST':
         form=QuestionForm(request.POST)
         if form.is_valid():
@@ -101,7 +86,13 @@ def GroupeDetail(request, id):
             return redirect(groupe.get_absolute_url())
     else:
         form=QuestionForm(request.GET)
-    return render(request, 'groups/group.html', {'form':form, 'groupe':groupe})
+    return render(request, 'groups/group.html',
+                {'form':form,
+                'groupe':groupe,
+                'members':members})
+
+
+
 #add member by suggesting him
 #remove member from a group
 #approve_membership request
