@@ -43,7 +43,7 @@ def question(request, id):
 
 
 
-
+"""
 class submitq(LoginRequiredMixin, CreateView):
     model=Question
     fields=['title', 'body']
@@ -53,8 +53,29 @@ class submitq(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.submitted_by=self.request.user
         target=super().form_valid(form)
-        create_action(self.request.user, 'asked a new question', target)
+
         return target
+"""
+
+@login_required
+def submitq(request):
+    if request.method=='POST':
+        form=QuestionForm(request.POST)
+        if form.is_valid():
+            title=form.cleaned_data['title']
+            body=form.cleaned_data['body']
+            newq=Question(title=title, body=body,
+                submitted_by=request.user
+            )
+            newq.save()
+            create_action(request.user,
+                'asked a new question', newq
+            )
+            return redirect('home')
+    else:
+        form=QuestionForm()
+    return render(request, 'quans/submission.html', {'form':form})
+
 
 
 class editq(OwnerMixin, LoginRequiredMixin, UpdateView):
