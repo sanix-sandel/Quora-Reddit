@@ -26,6 +26,16 @@ class Groupe(models.Model):
 
     def __str__(self):
         return f'{self.title} owned by {self.owner}'
+    
+"""
+class Membership(models.Model):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    date_joined = models.DateField()
+    invite_reason = models.CharField(max_length=64)
+ """  
+    
+    
 #owner=GenericRelat(settings.AUTH_USER_MODEL, related_query_name='own_group')
 #We'll use ContentType rather than...
 #owner_model=models.ForeignKey(ContentType, blank=False,
