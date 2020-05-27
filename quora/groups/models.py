@@ -24,13 +24,3 @@ class Groupe(models.Model):
 
     def __str__(self):
         return f'{self.title} owned by {self.owner}'
-#owner=GenericRelat(settings.AUTH_USER_MODEL, related_query_name='own_group')
-#We'll use ContentType rather than...
-#owner_model=models.ForeignKey(ContentType, blank=False,
-#                        null=False, related_name='own_groupe',
-#                        on_delete=models.CASCADE)
-#owner_id=models.PositiveIntegerField(null=False, blank=False, db_index=True)
-#owner=GenericForeignKey('owner_model', 'owner_id')
-#owner=models.OneToOneField(settings.AUTH_USER_MODEL,
-#                            related_name='his_group',
-#                            on_delete=models.CASCADE)

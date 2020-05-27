@@ -7,4 +7,5 @@ urlpatterns=[
     path('mygroups/', views.UserGroupe.as_view(), name='user_groups'),
     path('group/<int:id>/<str:action>/', views.join_or_leave, name='join_or_leave'),
     path('group/<int:id>/', views.GroupeDetail, name='groupe_detail'),
+    path('group/<int:id>/members', views.GroupeMemberList.as_view(), name='groupe_members'),
 ]

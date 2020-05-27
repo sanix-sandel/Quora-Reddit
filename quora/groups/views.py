@@ -24,6 +24,10 @@ class OwnerMixin():
         qs=super().get_queryset()
         return qs.filter(owner=[self.request.user])
 
+class Member():
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.only("member")
 
 @login_required
 def GroupeCreateView(request):
@@ -91,7 +95,10 @@ def GroupeDetail(request, id):
                 'groupe':groupe,
                 'members':members})
 
-
+class GroupeMemberList(Member, ListView):
+    model=Groupe
+    context_object_name='members'
+    template_name='groups/membergroupe.html'
 
 #add member by suggestion
 #remove member from a group
