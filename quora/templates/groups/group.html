@@ -15,7 +15,9 @@
           <a class="h6 post__author-name fn" href="#"> {{groupe.owner.username}}</a>
           <div class="post__date">
              <time class="published" datetime="2004-07-24T18:18">
-             #
+             <a href="#" class="btn btn-sm btn-light">
+               <i class="fa fa-user">{{groupe.member.count}}</i>
+             </a>
              </time>
           </div>
        </div>
@@ -31,8 +33,11 @@
     </p>
     <div class="post-additional-info inline-items">
        <p>
-
-          <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> </a>
+         {% if not request.user in groupe.member.all %}
+            <a href="{% url "join_or_leave" id=groupe.id action='join' %}" class="btn btn-sm btn-light">
+              <span class="fa fa-user-plus"></span> Join
+            </a>
+         {% endif %}
        </p>
        <p class="social-icons">
           <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>

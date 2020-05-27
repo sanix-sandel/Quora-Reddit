@@ -26,9 +26,20 @@
 
       <div class="post-additional-info inline-items">
          <p>
+           {% with user=request.user %}
+            {% if g in user.a_group.all %}
+              <a href="{% url "join_or_leave" id=g.id action='leave' %}" class="btn btn-sm btn-light">
+                <span class="fa fa-sign-out"></span> Leave
+              </a>
+            {% else %}
+              <a href="{% url "join_or_leave" id=g.id action='join' %}" class="btn btn-sm btn-light">
+                  <span class="fa fa-user-plus"></span> Join
+              </a>
+            {% endif %}
 
-            <a href="{% url "join_or_leave" id=g.id action='join' %}" class="btn btn-sm btn-light"><span class="fa fa-user-plus"></span> Join</a>
-            <a href="{% url "join_or_leave" id=g.id action='leave' %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Leave</a>
+           {% endwith %}
+
+
 
          </p>
 

@@ -85,7 +85,7 @@ def GroupeDetail(request, id):
             newq.save()
             return redirect(groupe.get_absolute_url())
     else:
-        form=QuestionForm(request.GET)
+        form=QuestionForm()
     return render(request, 'groups/group.html',
                 {'form':form,
                 'groupe':groupe,
