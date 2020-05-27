@@ -9,11 +9,11 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 class Groupe(models.Model):
     title=models.CharField(max_length=50)
     description=models.TextField(blank=True)
-    owner_ct=models.ForeignKey(ContentType, blank=True,
-                                null=True,
+    owner_ct=models.ForeignKey(ContentType, blank=False,
+                                null=False,
                                 related_name='own_group',
                                 on_delete=models.CASCADE)
-    owner_id=models.PositiveIntegerField(null=True, blank=True, db_index=True)
+    owner_id=models.PositiveIntegerField(null=False, blank=False, db_index=True)
     owner=GenericForeignKey('owner_ct', 'owner_id')
     member=models.ManyToManyField(settings.AUTH_USER_MODEL,
                                 related_name='a_group',
