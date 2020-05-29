@@ -29,6 +29,11 @@ class Member():
         qs=super().get_queryset()
         return qs.only("member")
 
+class Questions(ListView):
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.questions.all
+
 @login_required
 def GroupeCreateView(request):
     if request.method=='POST':
@@ -79,12 +84,16 @@ def join_or_leave(request, id, action):
         groupe.save()
     return redirect('home')
 
+
+
 def GroupeDetail(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     members=groupe.member.all()
     if request.method=='POST':
         form=QuestionForm(request.POST)
         if form.is_valid():
+            newq=form.save(commit=False)
+            newq.groupe=groupe
             newq.submitted_by=request.user
             newq.save()
             return redirect(groupe.get_absolute_url())
@@ -99,6 +108,7 @@ class GroupeMemberList(Member, ListView):
     model=Groupe
     context_object_name='members'
     template_name='groups/membergroupe.html'
+
 
 #add member by suggestion
 #remove member from a group

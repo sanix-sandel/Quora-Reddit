@@ -15,6 +15,10 @@ class home(ListView):
     context_object_name='questions'
     template_name='quans/home.html'
 
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.filter(groupe=None)
+
 
 
 class OwnerMixin():
@@ -67,9 +71,6 @@ def submitq(request, id=None):
             newq=Question(title=title, body=body,
                 submitted_by=request.user
             )
-            if id:
-                groupe=get_object_or_404(Groupe, id=id)
-                newq.groupe=groupe
             newq.save()
             create_action(request.user,
                 'asked a new question', newq
