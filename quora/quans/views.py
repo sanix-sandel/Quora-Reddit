@@ -58,7 +58,7 @@ class submitq(LoginRequiredMixin, CreateView):
 """
 
 @login_required
-def submitq(request):
+def submitq(request, id=None):
     if request.method=='POST':
         form=QuestionForm(request.POST)
         if form.is_valid():
@@ -67,6 +67,9 @@ def submitq(request):
             newq=Question(title=title, body=body,
                 submitted_by=request.user
             )
+            if id:
+                groupe=get_object_or_404(Groupe, id=id)
+                newq.groupe=groupe
             newq.save()
             create_action(request.user,
                 'asked a new question', newq

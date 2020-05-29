@@ -14,7 +14,10 @@ class Question(models.Model):
     retwitters=models.ManyToManyField(
                                     settings.AUTH_USER_MODEL,
                                     related_name='questions_retwitted',
-                                    blank=True)
+                                    blank=True,)
+
+    groupe=models.ForeignKey("groups.Groupe", related_name='questions',
+                            null=True, blank=True, on_delete=models.CASCADE)                                
 
     class Meta:
         ordering=('-submitted_on',)
