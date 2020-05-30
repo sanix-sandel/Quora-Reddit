@@ -20,3 +20,20 @@ class Action(models.Model):
 
     class Meta:
         ordering=('-created',)
+
+class Notification(models.Model):
+    user=models.ForeignKey(settings.AUTH_USER_MODEL,
+                            related_name='notifications',
+                            db_index=True,
+                            null=True,
+                            blank=True,
+                            on_delete=models.CASCADE)
+    verb=models.CharField(max_length=300)
+
+    target=models.ForeignKey(ContentType, blank=True,
+                                null=True,
+                                related_name='target_obj',
+                                on_delete=models.CASCADE)
+    target_pk=models.PositiveIntegerField(null=True, blank=True)
+    target=GenericForeignKey('target', 'target_pk')
+    created=models.DateTimeField(auto)

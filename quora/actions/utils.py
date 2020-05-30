@@ -1,7 +1,7 @@
 import datetime
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
-from .models import Action
+from .models import Action, Notification
 
 def create_action(user, verb, target=None):
     now=timezone.now()
@@ -24,3 +24,13 @@ def create_action(user, verb, target=None):
         action.save()
         return True
     return False
+
+
+def create_notification(user=None, verb, target):
+    if user:
+        notification=Notification(user=user, verb=verb, target=target)
+        notification.save()
+
+    else:
+        notification=Notification(user=None, verb, target=target)    
+    return True
