@@ -92,6 +92,8 @@ class editq(OwnerMixin, LoginRequiredMixin, UpdateView):
         form.instance.submitted_by=self.request.user
         return super().form_valid(form)
 
+
+
 @login_required
 def retwitter(request, qi):
     q=get_object_or_404(Question, id=qi)
@@ -114,6 +116,8 @@ class edita(OwnerMixin, LoginRequiredMixin, UpdateView):
         form.instance.submitted_by=self.request.user
         return super().form_valid(form)
 
+
+
 class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
     model=Question
     success_url=reverse_lazy('user_questions')
@@ -124,6 +128,9 @@ class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
 def upvote(request, id, action):
     answer=get_object_or_404(Answer, id=id)
     if action=='like':
+        if answer in request.user.answers_upvoted.all:
+             answer.user_upvote.remove(request.user)
+             answer.save()
         answer.user_upvote.add(request.user)
         answer.save()
     return redirect('question', id=answer.reply_to.id)

@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from quans.forms import QuestionForm
 from django.contrib.contenttypes.models import ContentType
+from accounts.models import MyUser
 
 
 class OwnerMixin():
@@ -24,15 +25,21 @@ class OwnerMixin():
         qs=super().get_queryset()
         return qs.filter(owner=[self.request.user])
 
+
+
 class Member():
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.only("member")
 
+
+
 class Questions(ListView):
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.questions.all
+
+
 
 @login_required
 def GroupeCreateView(request):
@@ -104,11 +111,18 @@ def GroupeDetail(request, id):
                 'groupe':groupe,
                 'members':members})
 
-class GroupeMemberList(Member, ListView):
-    model=Groupe
-    context_object_name='members'
-    template_name='groups/membergroupe.html'
 
+def GroupeMemberList(request, id):
+    groupe=get_object_or_404(Groupe, id=id)
+    return render(request, 'groups/membergroupe.html',
+                 {'groupe':groupe})
+
+def RemoveMember(request, id, g_id):
+    user=get_object_or_404(MyUser, id=id)
+    groupe=get_object_or_404(Groupe, id=id)
+    groupe.member.remove(user)
+    groupe.save()
+    return redirect('groupe_members', id=g_id)
 
 #add member by suggestion
 #remove member from a group

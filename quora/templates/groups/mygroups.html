@@ -7,7 +7,7 @@
    <article class="hentry post">
       <div class="m-link">
          <a href="#"  target="_blank">
-            <a href="{{ q.get_absolute_url }}"><h4>{{g.title}}</h4></a>
+            <a href="{{ g.get_absolute_url }}"><h4>{{g.title}}</h4></a>
          </a>
       </div>
       <div class="post__author author vcard inline-items">
@@ -26,7 +26,7 @@
       <div class="post-additional-info inline-items">
          <p>
 
-            
+
             <a href="{% url "join_or_leave" id=g.id action='leave' %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Leave</a>
 
          </p>
