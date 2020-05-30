@@ -12,7 +12,7 @@
        <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
        <div class="author-date">
          Created by
-          <a class="h6 post__author-name fn" href="#"> {{groupe.owner.username}}</a>
+          <a class="h6 post__author-name fn" href="{% url "see_profile" id=groupe.owner.id %}"> {{groupe.owner.username}}</a>
           <div class="post__date">
              <time class="published" datetime="2004-07-24T18:18">
              <a href="{% url "groupe_members" id=groupe.id %}" class="btn btn-sm btn-light">

@@ -39,9 +39,9 @@ def See_Profile(request, id):#we can also CBV
 
 
 def follow(request, id):
-    user1=MyUser.objects.get(id=id)
+    user1=get_object_or_404(MyUser, id=id)
     Contact.objects.create(user_from=request.user, user_to=user1)
-    create_notification(request.user, 'vous suit', user1)
+    create_notification('follows you', user1, user=request.user)
     return redirect('home')#'top_publishers')
 #def unfollow
 

@@ -21,6 +21,7 @@ class Action(models.Model):
     class Meta:
         ordering=('-created',)
 
+
 class Notification(models.Model):
     user=models.ForeignKey(settings.AUTH_USER_MODEL,
                             related_name='notifications',

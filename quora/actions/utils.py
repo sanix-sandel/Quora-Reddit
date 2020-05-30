@@ -33,4 +33,5 @@ def create_notification(verb, target, user=None):
 
     else:
         notification=Notification(user=None, verb=verb, target_m=target)
+        notification.save()
     return True
