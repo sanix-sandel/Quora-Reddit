@@ -30,10 +30,10 @@ class Notification(models.Model):
                             on_delete=models.CASCADE)
     verb=models.CharField(max_length=300)
 
-    target=models.ForeignKey(ContentType, blank=True,
+    target_m=models.ForeignKey(ContentType, blank=True,
                                 null=True,
-                                related_name='target_obj',
+                                related_name='target_m',
                                 on_delete=models.CASCADE)
     target_pk=models.PositiveIntegerField(null=True, blank=True)
-    target=GenericForeignKey('target', 'target_pk')
-    created=models.DateTimeField(auto)
+    target=GenericForeignKey('target_m', 'target_pk')
+    created=models.DateTimeField(auto_now_add=True, db_index=True)

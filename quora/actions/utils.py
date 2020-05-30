@@ -26,11 +26,11 @@ def create_action(user, verb, target=None):
     return False
 
 
-def create_notification(user=None, verb, target):
+def create_notification(verb, target, user=None):
     if user:
-        notification=Notification(user=user, verb=verb, target=target)
+        notification=Notification(user=user, verb=verb, target_m=target)
         notification.save()
 
     else:
-        notification=Notification(user=None, verb, target=target)    
+        notification=Notification(user=None, verb=verb, target_m=target)
     return True

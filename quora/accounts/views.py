@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import MyUser, Contact
 from actions.models import Action
+from actions.utils import create_notification
 
 
 class SignUpView(CreateView):
@@ -40,6 +41,7 @@ def See_Profile(request, id):#we can also CBV
 def follow(request, id):
     user1=MyUser.objects.get(id=id)
     Contact.objects.create(user_from=request.user, user_to=user1)
+    create_notification(request.user, 'vous suit', user1)
     return redirect('home')#'top_publishers')
 #def unfollow
 
@@ -57,3 +59,10 @@ def notifications(request):
     actions=actions.select_related('user').prefetch_related('target')[:10]
 
     return render(request, 'accounts/notifications.html', {'actions':actions})
+
+
+def personal_notifications(request):
+    user=request.user
+    notifications=Notification.objects.filter(target=request.user)
+    return render(request, 'accounts/notifications.html',
+                    {'notifications':notifications})
