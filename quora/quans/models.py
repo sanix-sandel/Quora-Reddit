@@ -6,6 +6,7 @@ from django.urls import reverse
 class Question(models.Model):
     title=models.CharField(max_length=80, default='no title added')
     body=models.TextField()
+    available=models.BooleanField(default=True)
     submitted_by=models.ForeignKey(settings.AUTH_USER_MODEL,
                                     related_name='questions_submitted',
                                     on_delete=models.CASCADE)
@@ -17,7 +18,7 @@ class Question(models.Model):
                                     blank=True,)
 
     groupe=models.ForeignKey("groups.Groupe", related_name='questions',
-                            null=True, blank=True, on_delete=models.CASCADE)                                
+                            null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering=('-submitted_on',)
