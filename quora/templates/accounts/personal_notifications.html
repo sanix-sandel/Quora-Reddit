@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    {% for action in actions %}
+    {% for notification in notifications %}
       <p>
-        {{action.user}}  {{action.verb}}
-        <a href={{action.target.get_absolute_url}}>
-          {{action.target}}
+         {{notification.user}} {{notification.verb}}
+        <a href="#">
+
         </a>
       </p>
     {% endfor %}

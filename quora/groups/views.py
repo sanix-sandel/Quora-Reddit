@@ -117,6 +117,8 @@ def GroupeMemberList(request, id):
     return render(request, 'groups/membergroupe.html',
                  {'groupe':groupe})
 
+
+
 def RemoveMember(request, id, g_id):
     user=get_object_or_404(MyUser, id=id)
     groupe=get_object_or_404(Groupe, id=id)
@@ -125,7 +127,7 @@ def RemoveMember(request, id, g_id):
     return redirect('groupe_members', id=g_id)
 
 #add member by suggestion
-#remove member from a group
+
 #Create private and public group
 #approve_membership request
 

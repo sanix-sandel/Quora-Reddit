@@ -128,9 +128,11 @@ class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
 def upvote(request, id, action):
     answer=get_object_or_404(Answer, id=id)
     if action=='like':
-        
+
         answer.user_upvote.add(request.user)
+        user1=answer.submitted_by
         answer.save()
+        create_notification('liked your answer', user1, user=request.user)
     return redirect('question', id=answer.reply_to.id)
 
 

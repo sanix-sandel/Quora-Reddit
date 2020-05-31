@@ -35,6 +35,7 @@ class MyUser(AbstractBaseUser):
     profile_image=models.ImageField(upload_to='profile_pics/', blank=True)
     about=models.TextField()
     groupe=GenericRelation("groups.Groupe")
+    notif=GenericRelation("actions.Notification")
     following=models.ManyToManyField('self', through=Contact,
                                     related_name='followers',
                                     symmetrical=False)
