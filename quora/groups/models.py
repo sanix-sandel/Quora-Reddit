@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 class Groupe(models.Model):
     title=models.CharField(max_length=50)
     description=models.TextField(blank=True)
+    private=models.BooleanField(default=False)
     owner_ct=models.ForeignKey(ContentType, blank=False,
                                 null=False,
                                 related_name='own_group',

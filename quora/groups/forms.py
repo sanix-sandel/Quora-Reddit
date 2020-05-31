@@ -4,4 +4,4 @@ from .models import Groupe
 class GroupeForm(forms.ModelForm):
     class Meta:
         model=Groupe
-        fields=('title', 'description',)
+        fields=('title', 'private', 'description',)
