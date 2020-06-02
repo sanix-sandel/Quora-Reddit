@@ -37,8 +37,9 @@ def question(request, id):
             newa=form.save(commit=False)
             newa.submitted_by=request.user
             newa.reply_to=question
+            user1=question.submitted_by
             newa.save()
-
+            create_notification('replied to your question', user1, user=request.user)
             return redirect(question.get_absolute_url())
     else:
         form=AnswerForm(request.GET)

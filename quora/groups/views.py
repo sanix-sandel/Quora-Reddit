@@ -89,7 +89,7 @@ def join_or_leave(request, id, action):
     else:
         groupe.member.remove(request.user)
         groupe.save()
-    return redirect('home')
+    return redirect('list_groups')
 
 
 

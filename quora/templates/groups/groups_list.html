@@ -14,7 +14,9 @@
          <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
          <div class="author-date">
            Created by
-            <a class="h6 post__author-name fn" href="#">{{g.owner.username}}</a>
+            <a class="h6 post__author-name fn" href="{% url "see_profile" id=g.owner.id %}">
+              {{g.owner.username}}
+            </a>
 
          </div>
          <div class="more">
