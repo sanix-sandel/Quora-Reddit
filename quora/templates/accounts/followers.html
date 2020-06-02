@@ -1,25 +1,34 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+
 {% block content %}
 
-{% for m in groupe.member.all %}
+{% for m in followers %}
 <div class="ui-block">
  <article class="hentry post">
     <div class="post__author author vcard inline-items">
        <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
        <div class="author-date">
 
-          <a class="h6 post__author-name fn" href="{{m.get_absolute_url}}">{{m.username}}</a>
-          <p>member since </p>
+          <a class="h6 post__author-name fn" href="{{m.get_absolute_url}}">{{m.user_from.username}}</a>
+          <p>following you since </p>
           <p>posts</p>
        </div>
 
        <div class="post-additional-info inline-items">
-         {% if is_owner %}
-            <p>
-              <a href="{% url 'remove_member' g_id=groupe.id id=m.id %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Remove</a>
-            </p>
-          {% endif %}
+
+          <p>
+            <a href="#" class="btn btn-sm btn-light">
+              <span class="fa fa-sign-out"></span>
+               Remove
+            </a>
+          </p>
+          <p>
+            <a href="#" class="btn btn-sm btn-light">
+              <span class="fa fa-sign-out"></span>
+               Block !
+            </a>
+          </p>
+
        </div>
        <div class="more">
           <a href="#">

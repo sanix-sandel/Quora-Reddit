@@ -46,6 +46,7 @@ def follow(request, id):
     return redirect('home')#'top_publishers')
 #def unfollow
 
+
 def notifications(request):
     #Display all actions by default
     actions=Action.objects.exclude(user=request.user)
@@ -67,3 +68,16 @@ def personal_notifications(request):
     notifications=Notification.objects.filter(target_pk=user.id)
     return render(request, 'accounts/personal_notifications.html',
                     {'notifications':notifications})
+
+
+class UserFollowers(LoginRequiredMixin, ListView):
+    model=Contact
+    context_object_name='followers'
+    template_name='accounts/followers.html'
+
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.filter(user_to__id=self.request.user.id)
+
+#def block
+#send following request

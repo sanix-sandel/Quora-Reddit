@@ -114,8 +114,9 @@ def GroupeDetail(request, id):
 
 def GroupeMemberList(request, id):
     groupe=get_object_or_404(Groupe, id=id)
+    is_owner=request.user==groupe.owner
     return render(request, 'groups/membergroupe.html',
-                 {'groupe':groupe})
+                 {'groupe':groupe, 'is_owner':is_owner})
 
 
 
@@ -128,7 +129,7 @@ def RemoveMember(request, id, g_id):
 
 #add member by suggestion
 
-#Create private and public group
+
 #approve_membership request
 
 #approve member's post(ask question)

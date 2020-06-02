@@ -8,5 +8,6 @@ urlpatterns=[
     path('profile/<int:id>/', views.See_Profile, name='see_profile'),
     path('profile/<int:id>/follow/', views.follow, name='follow'),
     path('notifs/', views.personal_notifications, name='personal_notifs'),
+    path('myfollowers/', views.UserFollowers.as_view(), name='user_followers'),
 
 ]
