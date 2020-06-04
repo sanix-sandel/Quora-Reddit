@@ -18,7 +18,7 @@ from django.contrib.auth.models import Group
 from quans.forms import QuestionForm
 from django.contrib.contenttypes.models import ContentType
 from accounts.models import MyUser
-
+from .forms import GroupeForm
 
 class OwnerMixin():
     def get_queryset(self):
@@ -131,11 +131,16 @@ def RemoveMember(request, id, g_id):
 class UpdateGroupe(LoginRequiredMixin, UpdateView):
     model=Groupe
     fields=['title', 'description']
-    success_url=rec=reverse_lazy('list_groups')
     template_name='groups/updateg.html'
+    success_url=reverse_lazy('list_groups')
+
+    def form_valid(self, form):
+        form.instance.submitted_by=self.request.user
+        return super().form_valid(form)
 
 
-class DeleteGroup(LoginRequiredMixin, DeleteView):
+
+class DeleteGroupe(LoginRequiredMixin, DeleteView):
     model=Groupe
     success_url=reverse_lazy('home')
     template_name='groups/deleteg.html'
