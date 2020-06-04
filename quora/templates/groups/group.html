@@ -39,8 +39,17 @@
             </a>
          {% endif %}
        </p>
-       <div class="post-additional-info inline-items">
-  
+       <p>
+         {% ifequal request.user groupe.owner %}
+            <a href="{% url "update_group" groupe.pk%}" class="btn btn-sm btn-light">
+              <span class="fa fa-pencil-square-o"></span> Update
+            </a>
+            <a href="{% url "delete_group" groupe.pk %}" class="btn btn-sm btn-light">
+              <span class="fa fa-trash"></span> Delete
+            </a>
+         {% endifequal %}
+       </p>
+
        <p class="social-icons">
           <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>
           <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-twitter"></i></a>
