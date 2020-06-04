@@ -127,6 +127,20 @@ def RemoveMember(request, id, g_id):
     groupe.save()
     return redirect('groupe_members', id=g_id)
 
+
+class UpdateGroupe(LoginRequiredMixin, UpdateView):
+    model=Groupe
+    fields=['title', 'description']
+    success_url=rec=reverse_lazy('list_groups')
+    template_name='groups/updateg.html'
+
+
+class DeleteGroup(LoginRequiredMixin, DeleteView):
+    model=Groupe
+    success_url=reverse_lazy('home')
+    template_name='groups/deleteg.html'
+
+
 #add member by suggestion
 
 

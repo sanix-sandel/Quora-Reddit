@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, Group
 from django.contrib.auth import get_user_model
 from .managers import MyUserManager
 from django.conf import settings
@@ -23,6 +23,15 @@ class Contact(models.Model):
     def __str__(self):
         return f"{self.user_from} follows {self.user_to}"
 
+
+class Role(Group):
+    class Meta:
+        proxy=True
+        verbose_name=("Role")
+        verbose_name_plural=("Roles")
+
+    def __str__(self):
+        return self.name
 
 class MyUser(AbstractBaseUser):
     username=models.CharField(max_length=50)

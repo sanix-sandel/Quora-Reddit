@@ -1,9 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.admin import (
+
+    UserAdmin as BaseUserAdmin,
+    GroupAdmin,
+    Group
+)
 from django.contrib.auth import get_user_model
 from .forms import UserCreationForm, UserChangeForm
-from .models import Contact
+from .models import Contact, Role
 
 MyUser=get_user_model()
 
@@ -31,6 +36,18 @@ class UserAdmin(BaseUserAdmin):
     ordering=('email',)
     filter_horizontal=()
 
+"""
+class RoleAdmin(GroupAdmin):
+    list_display=("__str__", "display_users")
+    save_on_top=True
+
+    def display_users(self, obj):
+        links=[]
+        for user in obj.user_set.all():
+"""
+
 admin.site.register(MyUser, UserAdmin)
 
 admin.site.register(Contact)
+
+admin.site.register(Role)
