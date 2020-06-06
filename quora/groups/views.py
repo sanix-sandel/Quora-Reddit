@@ -53,8 +53,9 @@ def GroupeCreateView(request):
             new_groupe=Groupe(title=title, description=description,
                 owner=owner
             )
+            group, created=Group.objects.get_or_create(name='groups_admins')
             #groupe, created=Group.objects.get_or_create(name='groups_admins')
-            #request.user.groups.add(groupe)#add the creator to admin group
+            request.user.groups.add(group)#add the creator to admin group
             new_groupe.save()
             new_groupe.member.add(owner)#add the creator as a member
             #owner.groups.add(groupe)
@@ -84,8 +85,9 @@ def join_or_leave(request, id, action):
     if action=='join':
         groupe.member.add(request.user)
         group, created=Group.objects.get_or_create(name='groups_members')
-    #    request.user.groups.add(group) make it
+        request.user.groups.add(group) #add the user to membership group
         groupe.save()
+        return redirect('groupe_detail', groupe.id)
     else:
         groupe.member.remove(request.user)
         groupe.save()

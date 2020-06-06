@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets=(
         (None, {'fields':('username', 'email', 'password')}),
         ('Personnal info', {'fields':('date_of_birth', 'profile_image', 'about')}),
-        ('Permissions', {'fields':('is_admin',)}),
+        ('Permissions', {'fields':('is_admin', )}),
 
     )
 
@@ -46,8 +46,8 @@ class RoleAdmin(GroupAdmin):
         for user in obj.user_set.all():
 """
 
-admin.site.register(MyUser, UserAdmin)
-
+#admin.site.register(MyUser, UserAdmin)
+admin.site.register(MyUser)
 admin.site.register(Contact)
 
 admin.site.register(Role)

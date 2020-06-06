@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from .managers import MyUserManager
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.auth.models import PermissionsMixin
 
 
 class Contact(models.Model):
@@ -33,7 +34,7 @@ class Role(Group):
     def __str__(self):
         return self.name
 
-class MyUser(AbstractBaseUser):
+class MyUser(AbstractBaseUser, PermissionsMixin):
     username=models.CharField(max_length=50)
     email=models.EmailField(
         verbose_name='email_address',
