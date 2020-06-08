@@ -9,7 +9,8 @@ def create_action(user, verb, target=None):
     similar_actions=Action.objects.filter(user_id=user.id,
                                             verb=verb,
                                             created__gte=last_minute)
-    if target:
+    if target:#It must be imporoved by using just target intead of
+    #target_ct
         target_ct=ContentType.objects.get_for_model(target)
         #get the model of the target
         similar_actions=similar_actions.filter(

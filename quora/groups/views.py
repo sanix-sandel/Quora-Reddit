@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import Groupe
 from .forms import GroupeForm
 from quans.models import Question, Answer
@@ -49,9 +50,10 @@ def GroupeCreateView(request):
             #I put it here because of contentype problem
             title=form.cleaned_data['title']
             description=form.cleaned_data['description']
+            private=form.cleaned_data['private']
             owner=request.user
             new_groupe=Groupe(title=title, description=description,
-                owner=owner
+                owner=owner, private=private
             )
             group, created=Group.objects.get_or_create(name='groups_admins')
             #groupe, created=Group.objects.get_or_create(name='groups_admins')
@@ -98,20 +100,23 @@ def join_or_leave(request, id, action):
 def GroupeDetail(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     members=groupe.member.all()
-    if request.method=='POST':
-        form=QuestionForm(request.POST)
-        if form.is_valid():
-            newq=form.save(commit=False)
-            newq.groupe=groupe
-            newq.submitted_by=request.user
-            newq.save()
-            return redirect(groupe.get_absolute_url())
-    else:
-        form=QuestionForm()
-    return render(request, 'groups/group.html',
+    if request.user in members:
+        if request.method=='POST':
+            form=QuestionForm(request.POST)
+            if form.is_valid():
+                newq=form.save(commit=False)
+                newq.groupe=groupe
+                newq.submitted_by=request.user
+                newq.save()
+                return redirect(groupe.get_absolute_url())
+        else:
+            form=QuestionForm()
+        return render(request, 'groups/group.html',
                 {'form':form,
                 'groupe':groupe,
                 'members':members})
+    else:
+        return redirect('list_groups')            
 
 
 def GroupeMemberList(request, id):
