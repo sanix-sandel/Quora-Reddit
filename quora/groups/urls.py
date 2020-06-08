@@ -8,7 +8,7 @@ urlpatterns=[
     path('group/<int:id>/<str:action>/', views.join_or_leave, name='join_or_leave'),
     path('group/<int:id>/', views.GroupeDetail, name='groupe_detail'),
     path('group/<int:id>/members', views.GroupeMemberList, name='groupe_members'),
-    path('group/<int:id>/activities', views.GroupeActivities, name='groupe_activities'),
+    path('group/activities/<int:id>/', views.GroupeActivities, name='groupe_activities'),
     path('group/<int:g_id>/members/remove/<int:id>/', views.RemoveMember,
         name='remove_member'),
     path('group/delete/<int:pk>/', views.DeleteGroupe.as_view(), name='delete_group' ),

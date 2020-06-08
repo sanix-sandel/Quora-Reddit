@@ -106,7 +106,7 @@ def join_or_leave(request, id, action):
 def GroupeDetail(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     members=groupe.member.all()
-    if request.user in members:
+    if request.user in members or request.user==groupe.owner:
         if request.method=='POST':
             form=QuestionForm(request.POST)
             if form.is_valid():
@@ -159,9 +159,9 @@ class DeleteGroupe(LoginRequiredMixin, DeleteView):
     template_name='groups/deleteg.html'
 
 def GroupeActivities(request, id):
-    #groupe=get_object_or_404(Groupe, id=id)
-    actions=Action.objects.exclude(user=request.user)
-    Action.objects.filter(target=groupe)
+    groupe=get_object_or_404(Groupe, id=id)
+    actions=Action.objects.filter(target_id=groupe.id)
+    #Problem solved, must use target_id insted of just target
     return render(request, 'groups/activities.html', {'actions':actions})
     #return render(request, 'groups/activities.html')
 
