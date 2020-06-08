@@ -169,6 +169,14 @@ def GroupeActivities(request, id):
 
 
 #approve_membership request
+class MembershipRequest():
+    
+
+def accept_member(request, group_id, user_id):
+    user=get_object_or_404(MyUser, id=user_id)
+    groupe=get_object_or_404(Groupe, id=group_id)
+    groupe.add.member(user)
+    return redirect('membership_requests', groupe_id=groupe.id)
 
 #approve member's post(ask question)
 #delete_group

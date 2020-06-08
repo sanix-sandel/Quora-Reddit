@@ -27,3 +27,14 @@ class Groupe(models.Model):
 
     def __str__(self):
         return f'{self.title} owned by {self.owner}'
+
+
+
+class MembersRequested(models.Model):
+    groupe=models.OneToOneField(Groupe, related_name='members_request',
+                                on_delete=models.CASCADE)
+    members=models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                related_name='groups_requested',
+                                blank=True)
+    def __str__(self):
+        return f"membership requests for {groupe.title}"                            
