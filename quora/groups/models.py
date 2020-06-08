@@ -20,6 +20,8 @@ class Groupe(models.Model):
                                 related_name='a_group',
                                 blank=True)
 
+    actions=GenericRelation("actions.Action")#because group may be a target
+
     def get_absolute_url(self):
         return reverse('groupe_detail', args=[self.id])
 

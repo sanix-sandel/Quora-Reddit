@@ -5,6 +5,7 @@ from .models import Groupe
 from .forms import GroupeForm
 from quans.models import Question, Answer
 from quans.forms import QuestionForm, AnswerForm
+from actions.models import Action, Notification
 from django.views.generic import (
     ListView,
     CreateView,
@@ -20,6 +21,8 @@ from quans.forms import QuestionForm
 from django.contrib.contenttypes.models import ContentType
 from accounts.models import MyUser
 from .forms import GroupeForm
+from actions.utils import create_action
+
 
 class OwnerMixin():
     def get_queryset(self):
@@ -85,11 +88,14 @@ class UserGroupe(LoginRequiredMixin, ListView):
 def join_or_leave(request, id, action):
     groupe=get_object_or_404(Groupe, id=id)
     if action=='join':
-        groupe.member.add(request.user)
-        group, created=Group.objects.get_or_create(name='groups_members')
-        request.user.groups.add(group) #add the user to membership group
-        groupe.save()
-        return redirect('groupe_detail', groupe.id)
+        if groupe.private:
+            create_action(request.user, ' wants to join ', groupe)
+        else:
+            groupe.member.add(request.user)
+            group, created=Group.objects.get_or_create(name='groups_members')
+            request.user.groups.add(group) #add the user to membership group
+            groupe.save()
+            return redirect('groupe_detail', groupe.id)
     else:
         groupe.member.remove(request.user)
         groupe.save()
@@ -116,7 +122,7 @@ def GroupeDetail(request, id):
                 'groupe':groupe,
                 'members':members})
     else:
-        return redirect('list_groups')            
+        return redirect('list_groups')
 
 
 def GroupeMemberList(request, id):
@@ -152,6 +158,12 @@ class DeleteGroupe(LoginRequiredMixin, DeleteView):
     success_url=reverse_lazy('home')
     template_name='groups/deleteg.html'
 
+def GroupeActivities(request, id):
+    #groupe=get_object_or_404(Groupe, id=id)
+    actions=Action.objects.exclude(user=request.user)
+    Action.objects.filter(target=groupe)
+    return render(request, 'groups/activities.html', {'actions':actions})
+    #return render(request, 'groups/activities.html')
 
 #add member by suggestion
 
