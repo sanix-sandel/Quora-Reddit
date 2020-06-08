@@ -32,13 +32,14 @@ class Question(models.Model):
 
 class Answer(models.Model):
     body=models.TextField()
-    reply_to=models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    reply_to=models.ForeignKey(Question, related_name='answers',
+                                on_delete=models.CASCADE)
     submitted_by=models.ForeignKey(settings.AUTH_USER_MODEL,
                                     related_name='user_answers',
                                     on_delete=models.CASCADE)
-
     submitted_on=models.DateTimeField(auto_now_add=True)
-    replies=models.ForeignKey('self', blank=True, null=True, on_delete=models.CASCADE)
+    replies=models.ForeignKey('self', blank=True, related_name='all_replies', 
+                                null=True, on_delete=models.CASCADE)
     user_upvote=models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='answers_upvoted')
 
