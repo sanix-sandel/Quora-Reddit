@@ -18,7 +18,7 @@
              <a href="{% url "groupe_members" id=groupe.id %}" class="btn btn-sm btn-light">
                <i class="fa fa-user">{{groupe.member.count}}</i>
              </a>
-             <a href="{% url "groupe_members" id=groupe.id %}" class="btn btn-sm btn-light">
+             <a href="{% url "membership_request" id=groupe.id %}" class="btn btn-sm btn-light">
                <i class="fa fa-user-plus">{{groupe.member.count}}</i>
              </a>
              <a href="{% url "groupe_activities" id=groupe.id %}" class="btn btn-sm btn-light">

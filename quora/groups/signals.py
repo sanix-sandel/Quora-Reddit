@@ -4,11 +4,11 @@ from django.dispatch import receiver
 from .models import Groupe, MembersRequested
 
 @receiver(post_save, sender=Groupe)
-def create_request_list(sender, instance, created, **kwargs):
+def create_groupe(sender, instance, created, **kwargs):
     if created:
         MembersRequested.objects.create(groupe=instance)
 
 
 @receiver(post_save, sender=Groupe)
-def save_request_list(sender, instance, **kwargs):
+def save_groupe(sender, instance, **kwargs):
     instance.members_request.save()

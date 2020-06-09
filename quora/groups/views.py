@@ -20,6 +20,7 @@ from django.contrib.auth.models import Group
 from quans.forms import QuestionForm
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from accounts.models import MyUser
 from .forms import GroupeForm
 from actions.utils import create_action
 
@@ -173,10 +174,14 @@ def GroupeActivities(request, id):
 
 #approve_membership request
 class RequestMixin():
+
+
     def get_queryset(self):
+        groupe=get_object_or_404(Groupe, id=id)
         qs=super().get_queryset()
-        qs.filter(groups_requested__in=groupe)
-        return qs
+        return qs.filter(groups_requested__in=groupe)
+
+
 
 class MembershipRequest(LoginRequiredMixin, RequestMixin, ListView):
 
@@ -184,9 +189,13 @@ class MembershipRequest(LoginRequiredMixin, RequestMixin, ListView):
     template_name='groups/membersrequest.html'
     context_object_name='members'
 
-    def get_groupe(self, id):
-        groupe=get_object_or_404(Groupe, id=id)
-        return groupe
+
+#
+#    def get_groupe(self, id):
+#        groupe=get_object_or_404(Groupe, id=id)
+#        return groupe
+
+
 
 
 
