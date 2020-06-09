@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% for m in members %}
+<div class="ui-block">
+ <article class="hentry post">
+    <div class="post__author author vcard inline-items">
+       <img src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg" alt="author">
+       <div class="author-date">
+
+          <a class="h6 post__author-name fn" href="{{m.get_absolute_url}}">{{m.username}}</a>
+          <p>member since </p>
+          <p>posts</p>
+       </div>
+
+       <div class="post-additional-info inline-items">
+         <!--{% if is_owner %}-->
+            <p>
+              <a href="{% url 'remove_member' g_id=groupe.id id=m.id %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Accept</a>
+            </p>
+          <!--{% endif %}-->
+       </div>
+       <div class="more">
+          <a href="#">
+          <i class="fa fa-ellipsis-v"></i>
+          </a>
+       </div>
+    </div>
+
+
+ </article>
+</div>
+
+{% endfor %}
+{% endblock %}
