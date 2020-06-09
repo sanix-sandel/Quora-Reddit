@@ -5,3 +5,4 @@ users can search questions and answers
 ElasticSearch
 Redis for answers ranking
 Cache Framework
+System Check Framework
