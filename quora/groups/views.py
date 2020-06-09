@@ -19,7 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from quans.forms import QuestionForm
 from django.contrib.contenttypes.models import ContentType
-from accounts.conf import settings
+from django.conf import settings
 from .forms import GroupeForm
 from actions.utils import create_action
 
@@ -90,6 +90,9 @@ def join_or_leave(request, id, action):
     if action=='join':
         if groupe.private:
             create_action(request.user, ' wants to join ', groupe)
+            #MembersRequested.objects.create(
+                #    groupe=groupe, members.add(request.user)
+            #)
         else:
             groupe.member.add(request.user)
             group, created=Group.objects.get_or_create(name='groups_members')
@@ -194,7 +197,6 @@ def accept_member(request, group_id, user_id):
     return redirect('membership_requests', groupe_id=groupe.id)
 
 #approve member's post(ask question)
-#delete_group
-#update_group
+
 
 #
