@@ -5,7 +5,7 @@
 
     <form action="" method="post">{% csrf_token %}
         {{ form|crispy }}
-         <p>Are you sure you want to delete the group ?"{{ object }}"?</p>
+         <p>Are you sure you want to delete the group ?</p>
         <input type="submit" class="button-danger" value="Confirm" />
     </form>
 {% endblock %}

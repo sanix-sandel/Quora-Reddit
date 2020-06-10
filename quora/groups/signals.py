@@ -7,8 +7,8 @@ from .models import Groupe, MembersRequested
 def create_groupe(sender, instance, created, **kwargs):
     if created:
         MembersRequested.objects.create(groupe=instance)
+        instance.members_request.save()
 
-
-@receiver(post_save, sender=Groupe)
-def save_groupe(sender, instance, **kwargs):
-    instance.members_request.save()
+#@receiver(post_save, sender=Groupe)
+#def save_groupe(sender, instance, **kwargs):
+#    instance.members_request.save()

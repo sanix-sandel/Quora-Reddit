@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-{% for m in members %}
+{% for m in members.members.all %}
 <div class="ui-block">
  <article class="hentry post">
     <div class="post__author author vcard inline-items">

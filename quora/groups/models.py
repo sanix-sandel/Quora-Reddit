@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 class Groupe(models.Model):
     title=models.CharField(max_length=50)
     description=models.TextField(blank=True)
+    created=models.DateTimeField(auto_now_add=True)
     private=models.BooleanField(default=False)
     owner_ct=models.ForeignKey(ContentType, blank=False,
                                 null=False,
@@ -20,7 +21,13 @@ class Groupe(models.Model):
                                 related_name='a_group',
                                 blank=True)
 
-    actions=GenericRelation("actions.Action", related_query_name='actions')#because group may be a target
+    actions=GenericRelation("actions.Action", content_type_field='target_ct',
+                            object_id_field='target_id',
+                            related_query_name='actions')
+                            #because group may be a target
+
+    class Meta:
+        ordering=('-created',)
 
     def get_absolute_url(self):
         return reverse('groupe_detail', args=[self.id])
@@ -37,4 +44,4 @@ class MembersRequested(models.Model):
                                 related_name='groups_requested',
                                 blank=True)
     def __str__(self):
-        return f"membership requests for {groupe.title}"                            
+        return f"membership requests for {groupe.title}"

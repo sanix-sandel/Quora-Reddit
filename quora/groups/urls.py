@@ -15,7 +15,7 @@ urlpatterns=[
         name='remove_member'),
     path('group/delete/<int:pk>/', views.DeleteGroupe.as_view(), name='delete_group' ),
     path('group/update/<int:pk>/', views.UpdateGroupe.as_view(), name='update_group' ),
-    path('group/membersrequests/<int:id>/', views.MembershipRequest.as_view(model=MyUser),
+    path('group/membersrequests/<int:id>/', views.MembershipRequest.as_view(),
         name='membership_request' ),
     path('group/membersrequests/<int:group_id>/accept/<int:user_id>/',
             views.accept_member,

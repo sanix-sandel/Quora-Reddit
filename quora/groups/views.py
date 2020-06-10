@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Groupe
+from .models import Groupe, MembersRequested
 from .forms import GroupeForm
 from quans.models import Question, Answer
 from quans.forms import QuestionForm, AnswerForm
@@ -162,6 +162,8 @@ class DeleteGroupe(LoginRequiredMixin, DeleteView):
     success_url=reverse_lazy('home')
     template_name='groups/deleteg.html'
 
+
+
 def GroupeActivities(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     actions=Action.objects.filter(target_id=groupe.id)
@@ -173,28 +175,26 @@ def GroupeActivities(request, id):
 
 
 #approve_membership request
-class RequestMixin():
-
-
-    def get_queryset(self):
-        groupe=get_object_or_404(Groupe, id=id)
-        qs=super().get_queryset()
-        return qs.filter(groups_requested__in=groupe)
+#class RequestMixin():
+#    groupe=get_object_or_404(Groupe, id=id)
+##        qs=super().get_queryset()
+#        return qs.filter(groups_requested__in=groupe)
 
 
 
-class MembershipRequest(LoginRequiredMixin, RequestMixin, ListView):
+class MembershipRequest(LoginRequiredMixin, ListView):
 
-    model=settings.AUTH_USER_MODEL
+    model=MembersRequested
     template_name='groups/membersrequest.html'
     context_object_name='members'
 
+    def get_groupe(self, id=13):
+        groupe=get_object_or_404(Groupe, id=id)
+        return groupe
 
-#
-#    def get_groupe(self, id):
-#        groupe=get_object_or_404(Groupe, id=id)
-#        return groupe
-
+    def get_queryset(self):
+        qs=super().get_queryset()
+        return qs.filter(groupe=self.get_groupe())
 
 
 
