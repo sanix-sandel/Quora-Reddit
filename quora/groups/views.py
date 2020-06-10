@@ -186,10 +186,10 @@ class MembershipRequest(LoginRequiredMixin, ListView):
     template_name='groups/membersrequest.html'
     context_object_name='members'
 
-    def get_groupe(self, id=13):
+    def get_groupe(self, id=id):
         groupe=get_object_or_404(Groupe, id=id)
         return groupe
-
+    
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.filter(groupe=self.get_groupe())
