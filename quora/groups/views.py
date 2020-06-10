@@ -189,7 +189,7 @@ class MembershipRequest(LoginRequiredMixin, ListView):
     def get_groupe(self, id=id):
         groupe=get_object_or_404(Groupe, id=id)
         return groupe
-    
+
     def get_queryset(self):
         qs=super().get_queryset()
         return qs.filter(groupe=self.get_groupe())
@@ -203,6 +203,12 @@ def accept_member(request, group_id, user_id):
     groupe.add.member(user)
     return redirect('membership_requests', groupe_id=groupe.id)
 
+
+def approve_post(request, group_id, question_id):
+    groupe=get_object_or_404(Groupe, id=groupe_id)
+    question=get_object_or_404(Question, id=question_id)
+    groupe.questions.add(question)
+    return redirect('groupe_detail', id=group_id)
 #approve member's post(ask question)
 
 

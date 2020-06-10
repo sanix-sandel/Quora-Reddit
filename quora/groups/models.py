@@ -44,3 +44,9 @@ class MembersRequested(models.Model):
                                 blank=True)
     def __str__(self):
         return f'membership requests for {self.groupe.title}'
+
+
+class PostRequest(models.Model):
+    groupe=models.OneToOneField(Groupe, on_delete=models.CASCADE)
+    author=models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
