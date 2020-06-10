@@ -13,7 +13,9 @@
           <p>member since </p>
           <p>posts</p>
           <p>
-            <a href="#" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Accept</a>
+            <a href="{% url 'accept_member' group_id=groupe.id user_id=m.id %}" class="btn btn-sm btn-light">
+              <span class="fa fa-sign-out"></span> Accept
+            </a>
           </p>
        </div>
 

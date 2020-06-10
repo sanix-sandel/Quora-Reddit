@@ -191,15 +191,16 @@ def GroupeActivities(request, id):
 def MembershipRequest(request, group_id):
     groupe=get_object_or_404(Groupe, id=group_id)
     members=MembersRequested.objects.get(groupe=groupe).members.all()
-    return render(request, 'groups/membersrequest.html', {'members':members})
+    return render(request, 'groups/membersrequest.html',
+                {'members':members, 'groupe':groupe})
 
 
 
 def accept_member(request, group_id, user_id):
     user=get_object_or_404(MyUser, id=user_id)
     groupe=get_object_or_404(Groupe, id=group_id)
-    groupe.add.member(user)
-    return redirect('membership_requests', groupe_id=groupe.id)
+    groupe.member.add(user)
+    return redirect('membership_request', group_id=groupe.id)
 
 
 def approve_post(request, group_id, question_id):
