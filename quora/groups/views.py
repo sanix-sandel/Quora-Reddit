@@ -172,28 +172,26 @@ def GroupeActivities(request, id):
 #add member by suggestion
 
 
-#approve_membership request
-#class RequestMixin():
-#    groupe=get_object_or_404(Groupe, id=id)
-##        qs=super().get_queryset()
-#        return qs.filter(groups_requested__in=groupe)
+#class MembershipRequest(LoginRequiredMixin, ListView):
+
+#    model=MembersRequested
+#    template_name='groups/membersrequest.html'
+#    context_object_name='members'
+
+#    def get_groupe(self, id=id):
+#        groupe=get_object_or_404(Groupe, id=id)
+#        return groupe
+#
+#    def get_queryset(self):
+#        qs=super().get_queryset()
+#        return qs.filter(groupe=self.get_groupe())
 
 
-
-class MembershipRequest(LoginRequiredMixin, ListView):
-
-    model=MembersRequested
-    template_name='groups/membersrequest.html'
-    context_object_name='members'
-
-    def get_groupe(self, id=id):
-        groupe=get_object_or_404(Groupe, id=id)
-        return groupe
-
-    def get_queryset(self):
-        qs=super().get_queryset()
-        return qs.filter(groupe=self.get_groupe())
-
+@login_required
+def MembershipRequest(request, group_id):
+    groupe=get_object_or_404(Groupe, id=group_id)
+    members=MyUser.objects.filter(groups_requested__in=groupe)
+    return (request, members)
 
 
 

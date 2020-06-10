@@ -40,6 +40,7 @@ class Groupe(models.Model):
 class MembersRequested(models.Model):
     groupe=models.OneToOneField(Groupe, on_delete=models.CASCADE)
     members=models.ManyToManyField(settings.AUTH_USER_MODEL,
+                                related_query_name='groups_requested',
                                 related_name='groups_requested',
                                 blank=True)
     def __str__(self):
