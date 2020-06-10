@@ -190,8 +190,8 @@ def GroupeActivities(request, id):
 @login_required
 def MembershipRequest(request, group_id):
     groupe=get_object_or_404(Groupe, id=group_id)
-    members=MyUser.objects.filter(groups_requested__in=groupe)
-    return (request, members)
+    members=MembersRequested.objects.get(groupe=groupe).members.all()
+    return render(request, 'groups/membersrequest.html', {'members':members})
 
 
 

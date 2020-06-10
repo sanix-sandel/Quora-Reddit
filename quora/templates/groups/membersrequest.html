@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-{% for m in members.members.all %}
+{% for m in members %}
 <div class="ui-block">
  <article class="hentry post">
     <div class="post__author author vcard inline-items">
@@ -12,15 +12,11 @@
           <a class="h6 post__author-name fn" href="{{m.get_absolute_url}}">{{m.username}}</a>
           <p>member since </p>
           <p>posts</p>
+          <p>
+            <a href="#" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Accept</a>
+          </p>
        </div>
 
-       <div class="post-additional-info inline-items">
-         <!--{% if is_owner %}-->
-            <p>
-              <a href="{% url 'remove_member' g_id=groupe.id id=m.id %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Accept</a>
-            </p>
-          <!--{% endif %}-->
-       </div>
        <div class="more">
           <a href="#">
           <i class="fa fa-ellipsis-v"></i>
