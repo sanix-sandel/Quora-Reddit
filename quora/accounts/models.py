@@ -44,7 +44,9 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     date_of_birth=models.DateField()
     profile_image=models.ImageField(upload_to='profile_pics/', blank=True)
     about=models.TextField()
-    groupe=GenericRelation("groups.Groupe")
+    groupe=GenericRelation("groups.Groupe", content_type_field='owner_ct',
+                                object_id_field='owner_id'
+                            )
     notif=GenericRelation("actions.Notification")
     following=models.ManyToManyField('self', through=Contact,
                                     related_name='followers',

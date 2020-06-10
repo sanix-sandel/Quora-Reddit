@@ -91,9 +91,7 @@ def join_or_leave(request, id, action):
     if action=='join':
         if groupe.private:
             create_action(request.user, ' wants to join ', groupe)
-            #MembersRequested.objects.create(
-                #    groupe=groupe, members.add(request.user)
-            #)
+            groupe.membersrequested.members.add(request.user)
         else:
             groupe.member.add(request.user)
             group, created=Group.objects.get_or_create(name='groups_members')
