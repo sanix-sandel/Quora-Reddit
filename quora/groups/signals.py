@@ -12,3 +12,14 @@ def create_groupe(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Groupe)
 def save_groupe(sender, instance, **kwargs):
     instance.membersrequested.save()
+
+
+@receiver(post_save, sender=Groupe)
+def create_groupe(sender, instance, created, **kwargs):
+    if created:
+        QuestionRequestList.objects.create(groupe=instance)
+
+
+@receiver(post_save, sender=Groupe)
+def save_groupe(sender, instance, **kwargs):
+    instance.questionrequestionlist.save()

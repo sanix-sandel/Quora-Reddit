@@ -51,3 +51,6 @@ class QuestionRequestList(models.Model):
     groupe=models.OneToOneField(Groupe, on_delete=models.CASCADE)
     questions=models.ManyToManyField("quans.Question",
                                 related_name='groups_request', )
+
+    def __str__(self):
+        return f'questions request for {self.groupe.title}'

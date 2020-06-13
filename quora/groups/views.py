@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Groupe, MembersRequested
+from .models import Groupe, MembersRequested, QuestionRequestList
 from .forms import GroupeForm
 from quans.models import Question, Answer
 from quans.forms import QuestionForm, AnswerForm
@@ -113,8 +113,14 @@ def GroupeDetail(request, id):
             form=QuestionForm(request.POST)
             if form.is_valid():
                 newq=form.save(commit=False)
-                newq.groupe=groupe
+                questionrequestlist=get_object_or_404(QuestionRequestList,
+                groupe=groupe)
+
+                #newq.groupe=groupe
                 newq.submitted_by=request.user
+                if groupe.owner!=request.user:
+                    questionrequestlist.questions.add(newq)
+
                 newq.save()
                 return redirect(groupe.get_absolute_url())
         else:
