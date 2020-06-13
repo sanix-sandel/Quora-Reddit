@@ -20,6 +20,7 @@ class Question(models.Model):
     groupe=models.ForeignKey("groups.Groupe", related_name='questions',
                             null=True, blank=True, on_delete=models.CASCADE)
 
+
     class Meta:
         ordering=('-submitted_on',)
 
@@ -38,7 +39,7 @@ class Answer(models.Model):
                                     related_name='user_answers',
                                     on_delete=models.CASCADE)
     submitted_on=models.DateTimeField(auto_now_add=True)
-    replies=models.ForeignKey('self', blank=True, related_name='all_replies', 
+    replies=models.ForeignKey('self', blank=True, related_name='all_replies',
                                 null=True, on_delete=models.CASCADE)
     user_upvote=models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='answers_upvoted')

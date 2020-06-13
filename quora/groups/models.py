@@ -47,7 +47,7 @@ class MembersRequested(models.Model):
         return f'membership requests for {self.groupe.title}'
 
 
-#class PostRequest(models.Model):
-#    groupe=models.OneToOneField(Groupe, on_delete=models.CASCADE)
-#    posts=models.ManyToManyField(settings.AUTH_USER_MODEL,
-#                                on_delete=models.CASCADE)
+class QuestionRequestList(models.Model):
+    groupe=models.OneToOneField(Groupe, on_delete=models.CASCADE)
+    questions=models.ManyToManyField("quans.Question",
+                                related_name='groups_request', )
