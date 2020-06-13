@@ -118,10 +118,14 @@ def GroupeDetail(request, id):
 
                 #newq.groupe=groupe
                 newq.submitted_by=request.user
-                if groupe.owner!=request.user:
+                if not (groupe.private) or groupe.owner==request.user:
+                    newq.groupe=groupe
+                    newq.save()
+                else:
+                    
+                    newq.save()
                     questionrequestlist.questions.add(newq)
 
-                newq.save()
                 return redirect(groupe.get_absolute_url())
         else:
             form=QuestionForm()
@@ -180,18 +184,6 @@ def GroupeActivities(request, id):
 
 #class MembershipRequest(LoginRequiredMixin, ListView):
 
-#    model=MembersRequested
-#    template_name='groups/membersrequest.html'
-#    context_object_name='members'
-
-#    def get_groupe(self, id=id):
-#        groupe=get_object_or_404(Groupe, id=id)
-#        return groupe
-#
-#    def get_queryset(self):
-#        qs=super().get_queryset()
-#        return qs.filter(groupe=self.get_groupe())
-
 
 @login_required
 def MembershipRequest(request, group_id):
@@ -199,6 +191,14 @@ def MembershipRequest(request, group_id):
     members=MembersRequested.objects.get(groupe=groupe).members.all()
     return render(request, 'groups/membersrequest.html',
                 {'members':members, 'groupe':groupe})
+
+
+@login_required
+def QuestionRequest(request, group_id):
+    groupe=get_object_or_404(Groupe, id=group_id)
+    questions=QuestionRequestList.objects.get(groupe=groupe).questions.all()
+    return render(request, 'groups/questionsrequest.html',
+                    {'questions':questions})
 
 
 
@@ -213,10 +213,12 @@ def accept_member(request, group_id, user_id):
     return redirect('membership_request', group_id=groupe.id)
 
 
-def approve_post(request, group_id, question_id):
+def approve_question(request, group_id, question_id):
     groupe=get_object_or_404(Groupe, id=groupe_id)
+    questionrequestlist=get_object_or_404(QuestionRequestList, groupe=groupe)
     question=get_object_or_404(Question, id=question_id)
     groupe.questions.add(question)
+    questionrequestlist.questions.remove(question)
     return redirect('groupe_detail', id=group_id)
 #approve member's post(ask question)
 

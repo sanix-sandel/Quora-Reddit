@@ -21,7 +21,7 @@
              <a href="{% url "membership_request" group_id=groupe.id %}" class="btn btn-sm btn-light">
                <i class="fa fa-user-plus">{{groupe.member.count}}</i>
              </a>
-             <a href="{% url "groupe_activities" id=groupe.id %}" >
+             <a href="{% url "question_request_list" group_id=groupe.id %}" >
                <i class="fa fa-question-circle"  aria-hidden="true">+3</i>
              </a>
              <a href="{% url "groupe_activities" id=groupe.id %}" class="btn btn-sm btn-light">

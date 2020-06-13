@@ -21,6 +21,9 @@ urlpatterns=[
             views.accept_member,
             name='accept_member' ),
 
+    path('group/questionsrequests/<int:group_id>/', views.QuestionRequest,
+        name='question_request_list' ),
+
 
 
 ]
