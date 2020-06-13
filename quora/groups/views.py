@@ -200,6 +200,10 @@ def accept_member(request, group_id, user_id):
     user=get_object_or_404(MyUser, id=user_id)
     groupe=get_object_or_404(Groupe, id=group_id)
     groupe.member.add(user)
+    #get the members request list
+    request_list=get_object_or_404(MembersRequested, groupe=groupe)
+    request_list.members.remove(user)#Remove the new member from
+    #members request list
     return redirect('membership_request', group_id=groupe.id)
 
 

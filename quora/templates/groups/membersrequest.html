@@ -10,11 +10,9 @@
        <div class="author-date">
 
           <a class="h6 post__author-name fn" href="{{m.get_absolute_url}}">{{m.username}}</a>
-          <p>member since </p>
-          <p>posts</p>
           <p>
             <a href="{% url 'accept_member' group_id=groupe.id user_id=m.id %}" class="btn btn-sm btn-light">
-              <span class="fa fa-sign-out"></span> Accept
+              <span class="fa fa-sign-out"></span> Approve
             </a>
           </p>
        </div>
