@@ -31,7 +31,7 @@
       </p>
       <div class="post-additional-info inline-items">
          <p>
-            <a href="#" class="btn btn-sm btn-light"><span class="fa fa-pencil"></span> Approve</a>
+            <a href="{% url 'approve_question' group_id=groupe.id question_id=q.id %}" class="btn btn-sm btn-light"><span class="fa fa-pencil"></span> Approve</a>
             <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Disapprove</a>
          </p>
          <p class="social-icons">

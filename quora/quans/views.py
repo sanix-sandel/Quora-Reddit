@@ -17,7 +17,7 @@ class home(ListView):
 
     def get_queryset(self):
         qs=super().get_queryset()
-        return qs.filter(groupe=None)
+        return qs.filter(groupe=None, groups_request=None)
 
 
 

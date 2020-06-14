@@ -118,11 +118,11 @@ def GroupeDetail(request, id):
 
                 #newq.groupe=groupe
                 newq.submitted_by=request.user
-                if not (groupe.private) or groupe.owner==request.user:
+                if groupe.owner==request.user or not groupe.private:
                     newq.groupe=groupe
                     newq.save()
                 else:
-                    
+
                     newq.save()
                     questionrequestlist.questions.add(newq)
 
@@ -198,7 +198,7 @@ def QuestionRequest(request, group_id):
     groupe=get_object_or_404(Groupe, id=group_id)
     questions=QuestionRequestList.objects.get(groupe=groupe).questions.all()
     return render(request, 'groups/questionsrequest.html',
-                    {'questions':questions})
+                    {'questions':questions, 'groupe':groupe})
 
 
 
@@ -214,12 +214,12 @@ def accept_member(request, group_id, user_id):
 
 
 def approve_question(request, group_id, question_id):
-    groupe=get_object_or_404(Groupe, id=groupe_id)
+    groupe=get_object_or_404(Groupe, id=group_id)
     questionrequestlist=get_object_or_404(QuestionRequestList, groupe=groupe)
     question=get_object_or_404(Question, id=question_id)
     groupe.questions.add(question)
     questionrequestlist.questions.remove(question)
-    return redirect('groupe_detail', id=group_id)
+    return redirect('question_request_list', group_id=groupe.id)
 #approve member's post(ask question)
 
 

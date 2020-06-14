@@ -24,6 +24,10 @@ urlpatterns=[
     path('group/questionsrequests/<int:group_id>/', views.QuestionRequest,
         name='question_request_list' ),
 
+    path('group/questionsrequests/<int:group_id>/approve/<int:question_id>/',
+        views.approve_question,
+        name='approve_question' ),
+
 
 
 ]
