@@ -26,3 +26,5 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+
+    #query_set for users must me added
