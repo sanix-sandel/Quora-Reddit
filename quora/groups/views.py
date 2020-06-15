@@ -108,6 +108,8 @@ def join_or_leave(request, id, action):
 def GroupeDetail(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     members=groupe.member.all()
+    members_request=get_object_or_404(MembersRequested, groupe=groupe).members.all()
+    questions_request=get_object_or_404(QuestionRequestList, groupe=groupe).questions.all()
     if request.user in members or request.user==groupe.owner:
         if request.method=='POST':
             form=QuestionForm(request.POST)
@@ -132,7 +134,9 @@ def GroupeDetail(request, id):
         return render(request, 'groups/group.html',
                 {'form':form,
                 'groupe':groupe,
-                'members':members})
+                'members':members,
+                'members_request':members_request,
+                'questions_request':questions_request})
     else:
         return redirect('list_groups')
 

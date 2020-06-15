@@ -14,7 +14,7 @@ from django.conf import settings
 
 #Connection to redis
 r=redis.Redis(host=settings.REDIS_HOST,
-             post=settings.REDIS_PORT,
+             port=settings.REDIS_PORT,
              db=settings.REDIS_DB)
 
 
@@ -39,6 +39,8 @@ class OwnerMixin():
 def question(request, id):
     question=get_object_or_404(Question, id=id)
     ans=question.answers.all()
+    views=r.incr(f'question:{question.id}:views')#for redis
+                  #object-type:id:field
     if request.method=='POST':
         form=AnswerForm(request.POST)
         if form.is_valid():
@@ -52,7 +54,7 @@ def question(request, id):
     else:
         form=AnswerForm(request.GET)
     return render(request, 'quans/question.html',
-                 {'q':question, 'ans':ans, 'form':form})
+                 {'q':question, 'ans':ans, 'form':form, 'views':views})
 
 
 
@@ -140,13 +142,32 @@ def upvote(request, id, action):
     if request.user in answer.user_upvote.all():
         answer.user_upvote.remove(request.user)
     else:
+        #increment answer ranking with a sorted set
+        #A sorted set is is a non-repeating collection of
+        #strings in which every member is associated with score
         answer.user_upvote.add(request.user)
-        likes=r.incr(f'answer:{answer.id}:likes')#for redis
+        #likes=r.incr(f'answer:{answer.id}:likes')
+        #r.zincrby('answer_ranking', 1, anwer.id)
         user1=answer.submitted_by
         create_notification('liked your answer', user1, user=request.user)
     answer.save()
 
-    return redirect('question', {'likes':likes}, id=answer.reply_to.id)
+    return redirect('question', id=answer.reply_to.id)
+
+#The zincrby() is used to store answer ranking(likes) nin a sorted
+
+#
+#def answer_ranking(request):
+    #get the answer ranking dictionnary
+    #Obtain the elements in the sorted set
+#    answer_ranking=r.zrange('answer_ranking', 0, -1, desc=True)[:10]
+#    answer_ranking_ids=[int(id) for id in answer_ranking]
+    #get most ranked answer
+#    most_ranked=list(Answer.objects.filter(id__in=answer_ranking_ids))
+#    most_ranked.sort(key=lambda x:answer_ranking_ids.index(x.id))
+#    return render(request, )
+
+
 
 
 class user_questions(OwnerMixin, LoginRequiredMixin, ListView):

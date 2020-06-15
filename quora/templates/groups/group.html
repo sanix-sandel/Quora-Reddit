@@ -19,13 +19,21 @@
                <i class="fa fa-user">{{groupe.member.count}}</i>
              </a>
              <a href="{% url "membership_request" group_id=groupe.id %}" class="btn btn-sm btn-light">
-               <i class="fa fa-user-plus">{{groupe.member.count}}</i>
+               <i class="fa fa-user-plus">
+                 {%with m=members_request.count%}
+                  {{m}}
+                 {% endwith %}
+               </i>
              </a>
              <a href="{% url "question_request_list" group_id=groupe.id %}" >
-               <i class="fa fa-question-circle"  aria-hidden="true">+3</i>
+               <i class="fa fa-question-circle"  aria-hidden="true">
+                 {%with q=questions_request.count%}
+                  {{q}}
+                 {% endwith %}
+               </i>
              </a>
              <a href="{% url "groupe_activities" id=groupe.id %}" class="btn btn-sm btn-light">
-               <i class="fa fa-user">Stream</i>
+               <i class="fa fa-bell" aria-hidden="true">Stream</i>
              </a>
              </time>
           </div>
