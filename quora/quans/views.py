@@ -9,6 +9,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from actions.utils import create_action
 from actions.utils import create_notification
+import redis
+from django.conf import settings
+
+#Connection to redis
+r=redis.Redis(host=settings.REDIS_HOST,
+             post=settings.REDIS_PORT,
+             db=settings.REDIS_DB)
+
 
 class home(ListView):
     model=Question
@@ -128,13 +136,17 @@ class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
 @login_required
 def upvote(request, id, action):
     answer=get_object_or_404(Answer, id=id)
-    if action=='like':
-
+    #if action=='like':#we have to remove this condition
+    if request.user in answer.user_upvote.all():
+        answer.user_upvote.remove(request.user)
+    else:
         answer.user_upvote.add(request.user)
+        likes=r.incr(f'answer:{answer.id}:likes')#for redis
         user1=answer.submitted_by
-        answer.save()
         create_notification('liked your answer', user1, user=request.user)
-    return redirect('question', id=answer.reply_to.id)
+    answer.save()
+
+    return redirect('question', {'likes':likes}, id=answer.reply_to.id)
 
 
 class user_questions(OwnerMixin, LoginRequiredMixin, ListView):
