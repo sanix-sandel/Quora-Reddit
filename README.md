@@ -6,3 +6,4 @@ ElasticSearch
 Redis for answers ranking
 Cache Framework
 System Check Framework
+Jquery for Pop up (answering an answer, user information...)
