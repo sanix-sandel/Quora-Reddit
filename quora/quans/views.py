@@ -194,5 +194,5 @@ class searchquestions(ListView):
     def get_queryset(self):
         query=self.request.GET.get('q')
         return Question.objects.filter(
-            Q(title__contains=query)|Q(title__icontains=query)
+            Q(title__icontains=query)|Q(body__icontains=query)
         )

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'quans.apps.QuansConfig',
     'groups.apps.GroupsConfig',
     'actions.apps.ActionsConfig',
+    'searching.apps.SearchingConfig',
 
 
 ]

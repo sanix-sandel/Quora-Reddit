@@ -3,6 +3,12 @@ from django.db import models
 from django.urls import reverse
 
 
+class QuestionManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(groupe=None)
+
+
+
 class Question(models.Model):
     title=models.CharField(max_length=80, default='no title added')
     body=models.TextField()
@@ -20,6 +26,7 @@ class Question(models.Model):
     groupe=models.ForeignKey("groups.Groupe", related_name='questions',
                             null=True, blank=True, on_delete=models.CASCADE)
 
+    objects= QuestionManager()                       
 
     class Meta:
         ordering=('-submitted_on',)
