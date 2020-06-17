@@ -144,6 +144,7 @@ def GroupeDetail(request, id):
 def GroupeMemberList(request, id):
     groupe=get_object_or_404(Groupe, id=id)
     is_owner=request.user==groupe.owner
+    
     return render(request, 'groups/membergroupe.html',
                  {'groupe':groupe, 'is_owner':is_owner})
 

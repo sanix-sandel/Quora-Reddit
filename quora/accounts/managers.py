@@ -27,4 +27,13 @@ class MyUserManager(BaseUserManager):
 
         return user
 
+    def get_queryset(self):
+        return super().get_queryset().all()
+
+    def GroupeMembers(self, groupe):
+        return self.get_queryset().filter(groupe=groupe).all()
+
+        
+
+
     #query_set for users must me added

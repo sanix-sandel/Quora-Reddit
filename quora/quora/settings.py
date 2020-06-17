@@ -29,6 +29,14 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL='accounts.MyUser'
 
+CACHES={
+    'default':{
+        'BACKEND':'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION':'127.0.0.1:11211',
+    }
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'memcache_status',
 
     'crispy_forms',
 
@@ -115,6 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # Internationalization
