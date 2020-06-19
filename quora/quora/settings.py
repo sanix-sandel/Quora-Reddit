@@ -58,6 +58,9 @@ INSTALLED_APPS = [
     'groups.apps.GroupsConfig',
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
+    'channels',
+    'chat',
+
 
 
 ]
@@ -89,6 +92,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = 'quora.routing.application'#for channels
 
 WSGI_APPLICATION = 'quora.wsgi.application'
 
