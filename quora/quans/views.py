@@ -2,7 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView, 
+    CreateView, 
+    UpdateView, 
+    DeleteView
+)   
+from django.views.generic.base import View
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -41,21 +47,27 @@ def question(request, id):
     ans=question.answers.all()
     views=r.incr(f'question:{question.id}:views')#for redis
                   #object-type:id:field
+    ansform=AnswerForm()
     if request.method=='POST':
-        form=AnswerForm(request.POST)
-        if form.is_valid():
-            newa=form.save(commit=False)
-            newa.submitted_by=request.user
-            newa.reply_to=question
-            user1=question.submitted_by
-            newa.save()
-            create_notification('replied to your question', user1, user=request.user)
-            return redirect(question.get_absolute_url())
+        form=AnswerForm(request.POST)    
+        return valider(request, form, question)    
     else:
         form=AnswerForm(request.GET)
     return render(request, 'quans/question.html',
-                 {'q':question, 'ans':ans, 'form':form, 'views':views})
+                 {'q':question, 'ans':ans, 'form':form, 
+                 'views':views, 'ansform':ansform})
 
+
+@login_required
+def valider(request, form, question):
+    if form.is_valid():
+        newa=form.save(commit=False)
+        newa.submitted_by=request.user
+        newa.reply_to=question
+        user1=question.submitted_by
+        newa.save()
+        create_notification('replied to your question', user1, user=request.user)
+        return redirect(question.get_absolute_url())
 
 
 """
@@ -196,3 +208,4 @@ class searchquestions(ListView):
         return Question.objects.filter(
             Q(title__icontains=query)|Q(body__icontains=query)
         )
+

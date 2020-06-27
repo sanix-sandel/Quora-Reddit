@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'memcache_status',
+   # 'memcache_status',
 
     'crispy_forms',
 
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'groups.apps.GroupsConfig',
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
-    'channels',
+  #  'channels',
     'chat',
 
 
@@ -93,7 +93,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'quora.routing.application'#for channels
+#ASGI_APPLICATION = 'quora.routing.application'#for channels
 
 WSGI_APPLICATION = 'quora.wsgi.application'
 

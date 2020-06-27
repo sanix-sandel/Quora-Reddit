@@ -27,11 +27,11 @@ class UserCreationForm(forms.ModelForm):
         return user
 
 class UserChangeForm(forms.ModelForm):
-    password=ReadOnlyPasswordHashField()
+  #  password=ReadOnlyPasswordHashField()
 
     class Meta:
         model=get_user_model()
-        fields=('username', 'email', 'date_of_birth', 'profile_image', 'about')
+        fields=('username', 'date_of_birth', 'profile_image', 'about')
 
 #    def clean_password(self):
 #        return self.initial['password']

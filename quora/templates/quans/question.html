@@ -42,6 +42,11 @@
  </article>
 </div>
 
+<form action="" method="post">{% csrf_token %}
+   {{ form|crispy }}
+   <input type="submit" value="Submit" />
+</form>
+
 {% for a in ans %}
 
     <div class="ui-block">
@@ -78,16 +83,50 @@
                     {{n}}
                   {% endwith %}
                  </span>
-                 <span class="fa fa-heart">
-                  {{a.likes}}
-                 </span>
+                
 
               </a>
-              <a href="#" class="btn btn-sm btn-light"><span class="fa fa-pencil"></span> Reply</a>
+             
 
            </p>
 
         </div>
+        <div class="container-fluid bg-gray" id="accordion-style-1">
+         <div class="container">
+            <section>
+               <div class="row">
+                  
+                  <div class="col-16">
+                     <div class="accordion" id="accordionExample">
+                        <div class="card">
+                           <div class="card-header" id="headingOne">
+                              <h5 class="mb-0">
+                           <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                             <i class="fa fa-amazon main"></i><i class="fa fa-angle-double-right mr-3"></i>replies
+                           </button>
+                          </h5>
+                           </div>
+      
+                           <div id="collapseOne" class="collapse show fade" aria-labelledby="headingOne" data-parent="#accordionExample">
+                              <div class="card-body">
+                                 Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terrys <i class="fa fa-angle-double-right"></i></strong></a>
+                              </div>
+                              <form action="" method="POST">
+                                <!--<textarea class="form-control" rows="5" id="comment"  name="reply"></textarea>-->
+                                 {% csrf_token %}
+                                 {{ form|crispy }}
+                                <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Reply</button>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
+         </div>
+         </div>            
+
+        
      </article>
    </div>
 
@@ -96,9 +135,6 @@
 No answer yet .
 {% endfor %}
 
-<form action="" method="post">{% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Submit" />
-</form>
+xxxx
 
 {% endblock %}

@@ -9,4 +9,10 @@
   <input id="chat-message-submit" type="submit" value="Send">
 </div>
 
+
+{% endblock %}
+{% block domready %}
+  var url='ws://'+window.location.host+
+          '/ws/chat/room/';
+  var chatSocket=new WebSocket(url); <!--Open the websocket connection-->
 {% endblock %}
