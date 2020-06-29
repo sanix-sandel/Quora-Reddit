@@ -17,6 +17,14 @@ from actions.utils import create_action
 from actions.utils import create_notification
 import redis
 from django.conf import settings
+from django.http import HttpResponse, Http404, JsonResponse
+
+from api.serializers import QuestionSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+
+
 
 #Connection to redis
 r=redis.Redis(host=settings.REDIS_HOST,
@@ -24,16 +32,23 @@ r=redis.Redis(host=settings.REDIS_HOST,
              db=settings.REDIS_DB)
 
 
-class home(ListView):
-    model=Question
-    context_object_name='questions'
-    template_name='quans/home.html'
+#class home(ListView):
+#    model=Question
+#    context_object_name='questions'
+#    template_name='quans/home.html'
 
-    def get_queryset(self):
-        qs=super().get_queryset()
-        return qs.filter(groupe=None, groups_request=None)
+#    def get_queryset(self):
+#        qs=super().get_queryset()
+#        return qs.filter(groupe=None, groups_request=None)
 
-
+def home(request):
+    questions=Question.objects.filter(groupe=None, groups_request=None)
+    form=QuestionForm()
+    context={
+        'questions':questions,
+        'form':form
+    }
+    return render(request, 'quans/home.html', context)
 
 class OwnerMixin():
     def get_queryset(self):
@@ -76,11 +91,9 @@ class submitq(LoginRequiredMixin, CreateView):
     fields=['title', 'body']
     template_name='quans/submission.html'
     success_url=reverse_lazy('home')
-
     def form_valid(self, form):
         form.instance.submitted_by=self.request.user
         target=super().form_valid(form)
-
         return target
 """
 
@@ -209,3 +222,13 @@ class searchquestions(ListView):
             Q(title__icontains=query)|Q(body__icontains=query)
         )
 
+@api_view(['POST'])
+def ask(request, *args, **kwargs):
+    serializer=QuestionSerializer(data=request.POST)
+    print('life')
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(submitted_by=request.user)
+        print('yo')
+        return Response(serializer.data, status=201)
+    print('yeah')    
+    return Response({}, status=400)          

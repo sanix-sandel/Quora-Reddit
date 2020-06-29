@@ -1,13 +1,18 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-
+<form method="POST" id="form" action='ask/'>{% csrf_token %}
+   {{ form|crispy }}
+   <input type="submit" value="Submit" />
+</form>
+   <p> <br></p>
   {% for q in questions %}
   <div class="ui-block">
    <article class="hentry post">
       <div class="m-link">
          <a href="#"  target="_blank">
-            <a href="{{ q.get_absolute_url }}"><h4>{{q.title}}</h4></a>
+            <a href="{{ q.get_absolute_url }}"><h4 id="#title">{{q.title}}</h4></a>
          </a>
       </div>
       <div class="post__author author vcard inline-items">
@@ -45,5 +50,58 @@
 
 
  {% endfor %}
+ <script >
+
+   function handlesubmit(event){
+      event.preventDefault()
+      const myform=event.target
+      const myformdata=new FormData(myform)
+      const url='ask/'
+      const method='POST'
+      const xhr=new XMLHttpRequest()
+      const responseType="json"
+      
+      xhr.responseType=responseType
+      xhr.open(method, url)
+      xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")//Django Ajax
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")//Django Ajax
+      
+      xhr.onload=function(){
+         console.log('error')
+         if (xhr.status===201){
+            
+            const serverResponse=xhr.response
+            
+            console.log(serverResponse)
+            load_questions();
+         }
+         
+      }
+      console.log('yea')
+      xhr.send(myformdata)
+   }
+
+   function load_questions(){
+      const xhr=new XMLHttpRequest()
+      const url='api/'
+      const method='GET'
+      const responseType="json"
+      xhr.open(method, url)
+      
+     
+      xhr.onload=function(){
+         
+         const serverResponse=xhr.response
+         const liste=serverResponse;
+         console.log(liste);
+      
+         
+      }
+      xhr.send()
+   }
+   load_questions();
+   
+   const questionForm=document.getElementById("form")
+   questionForm.addEventListener("submit", handlesubmit)
+ </script>
 {% endblock %}
-<script src="static/js/reply.js"></script>

@@ -111,8 +111,8 @@
                               <div class="card-body">
                                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terrys <i class="fa fa-angle-double-right"></i></strong></a>
                               </div>
-                              <form action="" method="POST">
-                                <!--<textarea class="form-control" rows="5" id="comment"  name="reply"></textarea>-->
+                              <form action="" method="POST">{% csrf_token %}
+                                
                                  {% csrf_token %}
                                  {{ form|crispy }}
                                 <button type="submit" class="btn btn-success green"><i class="fa fa-share"></i> Reply</button>

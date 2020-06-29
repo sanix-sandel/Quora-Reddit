@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
   #  'channels',
+    'rest_framework',
+    'api',
     'chat',
 
 
@@ -76,6 +78,20 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'quora.urls'
+
+DEFAULT_RENDER_CLASSES=[
+    'rest_framework.renderers.JSONRender',
+]
+
+if DEBUG:
+    DEFAULT_RENDER_CLASSES
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 TEMPLATES = [
     {
