@@ -225,10 +225,7 @@ class searchquestions(ListView):
 @api_view(['POST'])
 def ask(request, *args, **kwargs):
     serializer=QuestionSerializer(data=request.POST)
-    print('life')
     if serializer.is_valid(raise_exception=True):
         serializer.save(submitted_by=request.user)
-        print('yo')
-        return Response(serializer.data, status=201)
-    print('yeah')    
+        return Response(serializer.data, status=201)    
     return Response({}, status=400)          

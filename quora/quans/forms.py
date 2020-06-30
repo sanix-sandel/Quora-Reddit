@@ -8,6 +8,7 @@ class QuestionForm(forms.ModelForm):
     
 
 class AnswerForm(forms.ModelForm):
+    answer_id=forms.IntegerField(widget=forms.HiddenInput)
     class Meta:
         model=Answer
         fields=('body',)
@@ -18,3 +19,4 @@ class AnswerForm(forms.ModelForm):
         if commit:
             ans.save()
         return ans
+
