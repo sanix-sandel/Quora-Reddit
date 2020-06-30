@@ -8,6 +8,9 @@
 </form>
    <p> <br></p>
   {% for q in questions %}
+  <div id="block">
+
+  
   <div class="ui-block">
    <article class="hentry post">
       <div class="m-link">
@@ -47,9 +50,11 @@
       </div>
    </article>
  </div>
+</div>
 
 
  {% endfor %}
+ <script src="{%static 'js/QuestionComponent.js' %}"></script>
  <script >
 
    function handlesubmit(event){
@@ -103,5 +108,12 @@
    
    const questionForm=document.getElementById("form")
    questionForm.addEventListener("submit", handlesubmit)
+
+   var block=document.getElementById("block")
+   
+   block.innerHTML+=QuestionBlock();
+   console.log(block);
+
+
  </script>
 {% endblock %}
