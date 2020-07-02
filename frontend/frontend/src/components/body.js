@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class Body extends Component{
     render(){
         return (
-        <div class="col-lg-7">
+       
             
             <div class="ui-block">
                 <article class="hentry post">
@@ -45,7 +45,7 @@ class Body extends Component{
                 </article>
             </div>
 
-        </div>
+        
             
         )
     }

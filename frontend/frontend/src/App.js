@@ -27,7 +27,11 @@ class App extends Component{
         <div class="container-fluid">
           <div class="row">
             <SideBarL/>
-            <Body/>
+            <div class="col-lg-7">
+              {this.state.questions.map(q=>
+                <Body/>
+              )}
+            </div>
             <SideBarR/>
           </div>  
         </div>
