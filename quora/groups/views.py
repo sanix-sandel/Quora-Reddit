@@ -229,3 +229,8 @@ def approve_question(request, group_id, question_id):
 
 
 #
+def shared(request, q_id, g_id):
+    question=get_object_or_404(Question, id=q_id)
+    groupe=get_object_or_404(Groupe, id=g_id)
+    
+    return redirect('home')

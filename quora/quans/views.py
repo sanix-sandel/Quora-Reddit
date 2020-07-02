@@ -64,8 +64,11 @@ def question(request, id):
                   #object-type:id:field
     ansform=AnswerForm()
     if request.method=='POST':
-        form=AnswerForm(request.POST)    
+        print('life')
+        form=AnswerForm(request.POST)   
+
         return valider(request, form, question)    
+        
     else:
         form=AnswerForm(request.GET)
     return render(request, 'quans/question.html',
@@ -228,4 +231,12 @@ def ask(request, *args, **kwargs):
     if serializer.is_valid(raise_exception=True):
         serializer.save(submitted_by=request.user)
         return Response(serializer.data, status=201)    
-    return Response({}, status=400)          
+    return Response({}, status=400)     
+
+
+def shared(request, q_id, g_id):
+    question=get_object_or_404(Question, id=q_id)
+    groupe=get_object_or_404(Groupe, id=g_id)
+
+    return redirect('home')
+             

@@ -54,4 +54,14 @@ class Answer(models.Model):
     def __str__(self):
         return f"reply to {self.reply_to.title}"
 
+
      
+class Shared(models.Model):
+    parent=models.ForeignKey(Question, related_name='shared_question', 
+        on_delete=models.CASCADE)
+    created=models.DateTimeField(auto_now_add=True)
+    groupe=models.ManyToManyField("groups.Groupe", related_name='shared_questions')
+
+    def __str__(self):
+        return f'shared of {self.parent.title}'    
+

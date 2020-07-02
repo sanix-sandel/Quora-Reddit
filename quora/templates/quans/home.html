@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
-<form method="POST" id="form" action='ask/'>{% csrf_token %}
+<!--<form method="POST" id="form" action='ask/'>{% csrf_token %}
    {{ form|crispy }}
    <input type="submit" value="Submit" />
-</form>
+</form>-->
    <p> <br></p>
   {% for q in questions %}
   <div id="block">
@@ -54,14 +54,14 @@
 
 
  {% endfor %}
- <script src="{%static 'js/QuestionComponent.js' %}"></script>
+<!-- <script src="{%static 'js/QuestionComponent.js' %}"></script>
  <script >
 
    function handlesubmit(event){
       event.preventDefault()
       const myform=event.target
       const myformdata=new FormData(myform)
-      const url='ask/'
+      const url='api/ask/'
       const method='POST'
       const xhr=new XMLHttpRequest()
       const responseType="json"
@@ -78,6 +78,7 @@
             const serverResponse=xhr.response
             
             console.log(serverResponse)
+            block.innerHTML+=QuestionBlock(serverResponse);
             load_questions();
          }
          
@@ -99,7 +100,7 @@
          const serverResponse=xhr.response
          const liste=serverResponse;
          console.log(liste);
-      
+         
          
       }
       xhr.send()
@@ -109,11 +110,12 @@
    const questionForm=document.getElementById("form")
    questionForm.addEventListener("submit", handlesubmit)
 
-   var block=document.getElementById("block")
-   
-   block.innerHTML+=QuestionBlock();
+  
    console.log(block);
 
+   var block=document.getElementById("block")
+   
+  
 
- </script>
+ </script>-->
 {% endblock %}

@@ -1,15 +1,15 @@
-function QuestionBlock(){
+function QuestionBlock(question){
     var block="<div class='ui-block'>"+
     "<article class='hentry post'>"+
        "<div class='m-link'>"+
           "<a href='#'  target='_blank'>"+
-            "<a href='#'><h4 id='#title'></h4></a>"+
+            "<a href='#'><h4 id='#title'>"+question.title+"</h4></a>"+
           "</a>"+
        "</div>"+
        "<div class='post__author author vcard inline-items'>"+
           "<img src='#'>"+
           "<div class='author-date'>"+
-            "<a class='h6 post__author-name fn' href='#'></a>"+
+            "<a class='h6 post__author-name fn' href='#'>"+question.submitted_by+"</a>"+
              "<div class='post__date'>"+
                 "<time class='published' datetime='2004-07-24T18:18'>"+
                 "Asked 2h ago"+
