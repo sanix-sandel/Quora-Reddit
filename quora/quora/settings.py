@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
   #  'channels',
+    'corsheaders',
     'rest_framework',
     'api',
     'chat',
@@ -70,12 +71,19 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_WHITELIST=(
+    'http://localhost:3000',
+    'http://localhost:8000',
+)
+
 
 ROOT_URLCONF = 'quora.urls'
 

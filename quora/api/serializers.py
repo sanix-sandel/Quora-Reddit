@@ -5,29 +5,39 @@ from actions.models import Action
 from actions.models import Notification
 from groups.models import Groupe
 
-
-
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Question
-        fields=('title', 'body')
-
-
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Answer
-        fields=('body',)
-
 class MyUserSerializer(serializers.ModelSerializer):
     class Meta:
         model=MyUser
         fields=(
             'id',
             'username',
+            'profile_image',
             'email',
             'about',
 
         )
+
+class QuestionSerializer(serializers.ModelSerializer):
+    submitted_by=MyUserSerializer()
+    class Meta:
+        model=Question
+        fields=(
+            'title', 
+            'body', 
+            'submitted_by',
+            'submitted_on',
+            'groupe'
+        )
+
+
+class AnswerSerializer(serializers.ModelSerializer):
+    submitted_by=MyUserSerializer()
+    reply_to=QuestionSerializer()
+    class Meta:
+        model=Answer
+        fields=('body', 'submitted_by', 'reply_to')
+
+
 
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
