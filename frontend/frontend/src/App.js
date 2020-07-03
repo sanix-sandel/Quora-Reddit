@@ -6,17 +6,29 @@ import SideBarL from './components/SidebarL.js';
 import SideBarR from './components/SidebarR.js';
 import Body from './components/body.js';
 
+import Websocket from 'react-websocket';
+import  fetchquestions from './api';
+
 
 class App extends Component{
 
-    state={
-      questions:[
-        {id:0, texte:"Is life unfair ?"},
-        {id:1, texte:"Is easy to live in Africa ?"},
-        {id:2, texte:"Proghramming is tough ?"},
-        {id:3, texte:"What does it mean ?"},
-      ]
+    constructor(props){
+      super(props);
+      this.state={
+        questions:[]
+      }
+      this.getData=this.getData.bind(this);
+    }  
+
+    componentDidMount(){
+      this.getData();
     }
+
+    async getData(){
+      let data=await fetchquestions();
+      this.setState({questions:data})
+    }
+
 
   render(){
     return (
@@ -29,7 +41,7 @@ class App extends Component{
             <SideBarL/>
             <div class="col-lg-7">
               {this.state.questions.map(q=>
-                <Body/>
+                <Body key={q.id} quest={q}/>
               )}
             </div>
             <SideBarR/>

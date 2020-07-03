@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
-class Body extends Component{
-    render(){
+const Body=(props)=>{
         return (
        
             
@@ -9,7 +8,7 @@ class Body extends Component{
                 <article class="hentry post">
                     <div class="m-link">
                         <a href="#"  target="_blank">
-                            <a href="{{ q.get_absolute_url }}"><h4 id="#title">title</h4></a>
+        <a href="{{ q.get_absolute_url }}"><h4 id="#title">{props.quest.title}</h4></a>
                         </a>
                     </div>
                     <div class="post__author author vcard inline-items">
@@ -48,7 +47,7 @@ class Body extends Component{
         
             
         )
-    }
+    
 }
 
 export default Body;
