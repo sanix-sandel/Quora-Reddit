@@ -58,11 +58,11 @@ INSTALLED_APPS = [
     'groups.apps.GroupsConfig',
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
-  #  'channels',
+    'channels',
     'corsheaders',
     'rest_framework',
     'api',
-    'chat',
+    
 
 
 
@@ -87,19 +87,19 @@ CORS_ORIGIN_WHITELIST=(
 
 ROOT_URLCONF = 'quora.urls'
 
-DEFAULT_RENDER_CLASSES=[
-    'rest_framework.renderers.JSONRender',
-]
+#DEFAULT_RENDER_CLASSES=[
+#    'rest_framework.renderers.JSONRender',
+#]
 
-if DEBUG:
-    DEFAULT_RENDER_CLASSES
+#if DEBUG:
+#    DEFAULT_RENDER_CLASSES
 
-REST_FRAMEWORK = {
+"""REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ]
-}
+}"""
 
 TEMPLATES = [
     {
@@ -117,9 +117,18 @@ TEMPLATES = [
     },
 ]
 
-#ASGI_APPLICATION = 'quora.routing.application'#for channels
+ASGI_APPLICATION = 'quora.routing.application'#for channels
 
-WSGI_APPLICATION = 'quora.wsgi.application'
+#WSGI_APPLICATION = 'quora.wsgi.application'
+
+CHANNEL_LAYERS={
+    'default':{
+        'BACKEND':'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+            'hosts':[('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

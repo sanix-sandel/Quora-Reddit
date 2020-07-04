@@ -12,7 +12,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('groups/', include('groups.urls')),
     path('search/', include('searching.urls')),
-    path('chat/', include('chat.urls')),
+  
     path('api/', include('api.urls')),
 
 ]

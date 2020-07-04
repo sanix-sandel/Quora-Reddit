@@ -21,13 +21,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     submitted_by=MyUserSerializer()
     class Meta:
         model=Question
-        fields=(
-            'title', 
-            'body', 
-            'submitted_by',
-            'submitted_on',
-            'groupe'
-        )
+        fields='__all__'
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -35,8 +29,7 @@ class AnswerSerializer(serializers.ModelSerializer):
     reply_to=QuestionSerializer()
     class Meta:
         model=Answer
-        fields=('body', 'submitted_by', 'reply_to')
-
+        fields='__all__'
 
 
 class ActionSerializer(serializers.ModelSerializer):
