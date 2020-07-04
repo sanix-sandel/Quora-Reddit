@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns=[
     path('', views.home, name='home'),
-    path('ask/', views.ask),
+    
     path('question/<int:id>/', views.question, name='question'),
     path('myquestions/', views.user_questions.as_view(), name='user_questions'),
     path('myanswers/', views.user_answers, name='user_answers'),

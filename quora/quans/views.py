@@ -19,9 +19,11 @@ import redis
 from django.conf import settings
 from django.http import HttpResponse, Http404, JsonResponse
 
-from api.serializers import QuestionSerializer
+from api.serializers import QuestionSerializer, AnswerSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+
+
 
 
 
@@ -164,7 +166,9 @@ class deleteq(OwnerMixin, LoginRequiredMixin, DeleteView):
 
 
 @login_required
-def upvote(request, id, action):
+def upvote(request, id=2, action='like'):
+    serializer=AnswerSerializer(data=request.POST)
+    print("data received")
     answer=get_object_or_404(Answer, id=id)
     #if action=='like':#we have to remove this condition
     if request.user in answer.user_upvote.all():
@@ -225,18 +229,8 @@ class searchquestions(ListView):
             Q(title__icontains=query)|Q(body__icontains=query)
         )
 
-@api_view(['POST'])
-def ask(request, *args, **kwargs):
-    serializer=QuestionSerializer(data=request.POST)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save(submitted_by=request.user)
-        return Response(serializer.data, status=201)    
-    return Response({}, status=400)     
 
 
-def shared(request, q_id, g_id):
-    question=get_object_or_404(Question, id=q_id)
-    groupe=get_object_or_404(Groupe, id=g_id)
 
-    return redirect('home')
+
              
