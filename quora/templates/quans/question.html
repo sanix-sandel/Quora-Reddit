@@ -52,7 +52,7 @@
 
     <div class="ui-block">
      <article class="hentry post">
-        <div class="m-link">
+        <div class="m-link" >
            <a href="#"  target="_blank">
               <a href="#"><h4>Replied by : {{a.submitted_by.username}}</h4></a>
            </a>
@@ -79,10 +79,12 @@
         <div class="post-additional-info inline-items">
            <p>
                <a href="#" class="btn btn-sm btn-light">
-               <span onclick="LikeButton('{{a}}', '{{a.id}}')" id="count" class="fa fa-heart">
-                   {% with n=a.user_upvote.count %}
+               <span onclick="LikeButton('{{a}}', '{{a.id}}')" class="fa fa-heart" id='{{a.id}}'>
+                  {% with n=a.user_upvote.count %}
                     {{n}}
+                    
                   {% endwith %}
+
                  </span>
               </a>
            </p>
@@ -96,17 +98,19 @@
          
      </article>
    </div>
-
+   
 
 {% empty %}
 No answer yet .
 {% endfor %}
 
-xxxx
+
 <script src="{% static 'js/likeaction.js' %}"></script>
 <script src="{% static 'js/base.js' %}"></script>
 <script>
   
+   
+ 
   $(document).ready(function(){
 	   $('#count').click(function(){
 		   $("p").hide();
@@ -115,7 +119,12 @@ xxxx
    });
 
    function LikeButton(answer, id){
+      nombre=document.getElementById(id)
+      b=parseInt(nombre.innerHTML)+1
+      nombre.innerHTML=b
+      console.log(b);
       handleLike(answer, id);
+      
       
    }
 </script>

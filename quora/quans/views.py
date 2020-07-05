@@ -72,7 +72,7 @@ def question(request, id):
         return valider(request, form, question)    
         
     else:
-        form=AnswerForm(request.GET)
+        form=AnswerForm()
     return render(request, 'quans/question.html',
                  {'q':question, 'ans':ans, 'form':form, 
                  'views':views, 'ansform':ansform})

@@ -11,7 +11,7 @@
   <div id="block">
 
   
-  <div class="ui-block">
+  <div class="ui-block" >
    <article class="hentry post">
       <div class="m-link">
          <a href="#"  target="_blank">
@@ -43,7 +43,7 @@
             <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Retweeter</a>
          </p>
          <p class="social-icons">
-            <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="btn btn-sm btn-light" ><i class="fa fa-facebook"></i></a>
             <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-twitter"></i></a>
             <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-share"></i></a>
          </p>
@@ -52,10 +52,27 @@
  </div>
 </div>
 
+<div id="app">
+   [[ message ]]
+   <p>Vue </p>
+ </div>
+
 
  {% endfor %}
  <script src="{%static 'js/QuestionComponent.js' %}"></script>
+ <script src="https://cdn.jsdelivr.net/npm/vue"></script>
  <script >
+
+function like(){
+   var app = new Vue({
+      delimiters:["[[","]]"],
+      el: '#app',
+      data: {
+         message: 'Hello Vue!'
+      }
+   })
+}
+   
 
    function handlesubmit(event){
       event.preventDefault()
