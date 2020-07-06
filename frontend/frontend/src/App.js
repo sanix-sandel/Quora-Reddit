@@ -26,6 +26,7 @@ class App extends Component{
 
     async getData(){
       let data=await fetchquestions();
+      console.log(data);
       this.setState({questions:data})
     }
 

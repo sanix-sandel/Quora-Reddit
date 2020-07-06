@@ -11,7 +11,7 @@ class SideBarL extends Component{
                         <h6 class="my-4">Feeds</h6>
                   
                         <div class="nav flex-column nav-pills nav-stacked" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link" data-toggle="pill" > Menu</a>
+                            <a class="nav-link" data-toggle="pill" href="#"> Menu</a>
                             <a class="nav-link" data-toggle="pill" > Create a Group</a>
                             <a class="nav-link" data-toggle="pill" > My groups</a>
                             <a class="nav-link" data-toggle="pill" > Groups</a>

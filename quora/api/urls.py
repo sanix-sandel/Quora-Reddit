@@ -8,4 +8,5 @@ urlpatterns=[
     path('questions-list/', views.QuestionList.as_view()),
     path('answers-list/', views.AnswerList.as_view()),
     path('users-list/', views.UserList.as_view()),
+    path('answer/like/', views.like),
 ]

@@ -14,7 +14,7 @@ const Body=(props)=>{
                     <div class="post__author author vcard inline-items">
                         <img />
                         <div class="author-date">
-                            <a class="h6 post__author-name fn" href="#">submitted_by.username</a>
+                            <a class="h6 post__author-name fn" href="#">{props.quest.submitted_by.username}</a>
                             <div class="post__date">
                                 <time class="published" datetime="2004-07-24T18:18">
                                     Asked 2h ago

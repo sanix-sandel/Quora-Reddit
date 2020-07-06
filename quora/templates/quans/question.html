@@ -78,15 +78,15 @@
         </p>
         <div class="post-additional-info inline-items">
            <p>
-               <a href="#" class="btn btn-sm btn-light">
-               <span onclick="LikeButton('{{a}}', '{{a.id}}')" class="fa fa-heart" id='{{a.id}}'>
+               <button class="btn btn-sm btn-light">
+               <span onclick="LikeButton('{{a.id}}')" class="fa fa-heart" id='{{a.id}}' data-action="{% if request.user in a.user_upvote.all() %}un{% endif %}like">
                   {% with n=a.user_upvote.count %}
                     {{n}}
                     
                   {% endwith %}
 
                  </span>
-              </a>
+               </button>
            </p>
 
            <p class="social-icons">
@@ -118,12 +118,12 @@ No answer yet .
 	
    });
 
-   function LikeButton(answer, id){
+   function LikeButton(id, action){
       nombre=document.getElementById(id)
       b=parseInt(nombre.innerHTML)+1
       nombre.innerHTML=b
       console.log(b);
-      handleLike(answer, id);
+      handleLike(id, action);
       
       
    }

@@ -51,12 +51,28 @@ def questions_list(request):
 
 @api_view(['POST'])
 def like(request):
-    answer=get_object_or_404(Answer, id=id)
-    if request.user in answer.user_upvote.all():
-        answer.user_upvote.remove(request.user)
-    else:
-        answer.user_upvote.add(request.user)
-        user1=answer.submitted_by
+    serializer=AnswerSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        data=serializer.validated_data
+        answer_id=data.get("id")
+        action=data.get("action")
+        anwer=Answer.objects.filetr(id=answer_id)
+        if not answer.exists():
+            return Response({}, status=404)
+        answer=answer.first()
+        if action=="like":
+            answer.user_upvote.add(request.user)
+            answer.liked+=1
+            serializer=AnswerSerializer(answer)
+            return Response(serializer.data, status=200)
+        else:
+            answer.user_upvote.remove(request.user)
+            answer.liked-=1
+            serializer=AnswerSerializer(answer)
+            return Response(serializer.data, status=200)
+    return Response({}, status=200)        
+
+
 
 
 @api_view(['POST'])

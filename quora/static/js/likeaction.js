@@ -14,13 +14,14 @@ function getCookie(name) {//Pour le CSRF
     return cookieValue;
 }
 
-function handleLike(answer, id){
+function handleLike(id, action){
     console.log(answer, id);
     action="like";
-    const url="/upvote/"+id+"/"+action+"/";
+    const url="api/answer/like/";
     const method="POST"
     const data=JSON.stringify({
-        id:id
+        id:id,
+        action:action
     })
     console.log(data);
     console.log(url);

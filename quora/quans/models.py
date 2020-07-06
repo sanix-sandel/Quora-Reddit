@@ -50,6 +50,15 @@ class Answer(models.Model):
                                 null=True, on_delete=models.CASCADE)
     user_upvote=models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name='answers_upvoted')
+    likes=models.PositiveIntegerField(default=0)
+
+    @property
+    def liked(self):
+        return self.likes
+
+    @liked.setter
+    def liked(self, r):
+        self.likes=r    
 
     def __str__(self):
         return f"reply to {self.reply_to.title}"
