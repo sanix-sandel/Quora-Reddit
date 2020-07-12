@@ -51,17 +51,18 @@ INSTALLED_APPS = [
    # 'memcache_status',
 
     'crispy_forms',
-
+    'corsheaders',
+    'rest_framework',
+    
 
     'accounts.apps.AccountsConfig',
     'quans.apps.QuansConfig',
     'groups.apps.GroupsConfig',
     'actions.apps.ActionsConfig',
     'searching.apps.SearchingConfig',
-    'channels',
-    'corsheaders',
-    'rest_framework',
     'api',
+    #'channels',
+    
     
 
 
@@ -86,6 +87,15 @@ CORS_ORIGIN_WHITELIST=(
 
 
 ROOT_URLCONF = 'quora.urls'
+
+DEFAULT_RENDER_CLASSES=[
+    'rest_framework.renderers.JSONRender',
+]
+
+if DEBUG:
+    DEFAULT_RENDER_CLASSES+=[
+        'rest_framework.renderers.BrowsableAPIRender',
+    ]
 
 #DEFAULT_RENDER_CLASSES=[
 #    'rest_framework.renderers.JSONRender',
@@ -117,18 +127,18 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'quora.routing.application'#for channels
+#ASGI_APPLICATION = 'quora.routing.application'#for channels
 
-#WSGI_APPLICATION = 'quora.wsgi.application'
+WSGI_APPLICATION = 'quora.wsgi.application'
 
-CHANNEL_LAYERS={
-    'default':{
-        'BACKEND':'channels_redis.core.RedisChannelLayer',
-        'CONFIG':{
-            'hosts':[('127.0.0.1', 6379)],
-        },
-    },
-}
+#CHANNEL_LAYERS={
+#    'default':{
+#        'BACKEND':'channels_redis.core.RedisChannelLayer',
+#        'CONFIG':{
+#            'hosts':[('127.0.0.1', 6379)],
+#        },
+#    },
+#}
 
 
 # Database

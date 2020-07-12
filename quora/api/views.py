@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, Http404, JsonResponse
 from quans.models import Question
-from .serializers import QuestionSerializer
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import (
@@ -12,7 +12,8 @@ from .serializers import (
     MyUserSerializer,
     ActionSerializer,
     NotificationSerializer,
-    GroupeSerializer
+    GroupeSerializer,
+    AnswerActionSerializer
 )
 
 from rest_framework import serializers
@@ -50,13 +51,15 @@ def questions_list(request):
 
 
 @api_view(['POST'])
-def like(request):
-    serializer=AnswerSerializer(data=request.data)
+def like(request, *args, **kwargs):
+    print(request.data)
+    serializer=AnswerActionSerializer(data=request.data)
+
     if serializer.is_valid(raise_exception=True):
         data=serializer.validated_data
         answer_id=data.get("id")
         action=data.get("action")
-        anwer=Answer.objects.filetr(id=answer_id)
+        answer=Answer.objects.filter(id=answer_id)
         if not answer.exists():
             return Response({}, status=404)
         answer=answer.first()

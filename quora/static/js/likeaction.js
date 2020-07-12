@@ -14,11 +14,16 @@ function getCookie(name) {//Pour le CSRF
     return cookieValue;
 }
 
+function letcheck(){
+    console.log("Let's check")
+}
+letcheck();
 function handleLike(id, action){
-    console.log(answer, id);
-    action="like";
+    console.log(id)
+    console.log('wher is the answer ?')
     const url="api/answer/like/";
     const method="POST"
+    
     const data=JSON.stringify({
         id:id,
         action:action

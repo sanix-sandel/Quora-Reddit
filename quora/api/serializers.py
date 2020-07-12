@@ -31,6 +31,9 @@ class AnswerSerializer(serializers.ModelSerializer):
         model=Answer
         fields='__all__'
 
+class AnswerActionSerializer(serializers.Serializer):
+    id=serializers.IntegerField()    
+    action=serializers.CharField()
 
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:

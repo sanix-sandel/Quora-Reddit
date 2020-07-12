@@ -178,7 +178,7 @@ def upvote(request, id=2, action='like'):
         #A sorted set is is a non-repeating collection of
         #strings in which every member is associated with score
         answer.user_upvote.add(request.user)
-        answer.liked+=1
+        answer.likes+=1
         #likes=r.incr(f'answer:{answer.id}:likes')
         #r.zincrby('answer_ranking', 1, anwer.id)
         user1=answer.submitted_by
