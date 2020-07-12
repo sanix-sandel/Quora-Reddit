@@ -135,22 +135,24 @@ No answer yet .
          b=parseInt(nombre.innerHTML)+1
          nombre.innerHTML=b
          console.log('liked')
-        
+         handleLike(id=id, action=action);
          nombre.setAttribute("data-action", "unlike");
          action=(nombre).getAttribute("data-action");
          console.log(action)
-         //handleLike(id=id, action=action);
+        
          
       }else{
          b=parseInt(nombre.innerHTML)-1
          nombre.innerHTML=b
+         handleLike(id=id, action=action);
          console.log('unliked')
          nombre.setAttribute("data-action", "like");
          action=(nombre).getAttribute("data-action");
          console.log(action)
+         
       }
       
-      handleLike(id=id, action=action);
+      
       
       
    }

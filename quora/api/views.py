@@ -59,22 +59,23 @@ def like(request, *args, **kwargs):
         data=serializer.validated_data
         answer_id=data.get("id")
         action=data.get("action")
+        print(action)
         answer=Answer.objects.filter(id=answer_id)
         if not answer.exists():
             return Response({}, status=404)
         answer=answer.first()
         if action=="like":
             answer.user_upvote.add(request.user)
-            answer.liked+=1
-            
+           # answer.liked+=1
+            answer.save()
             serializer=AnswerSerializer(answer)
-            return Response(serializer.data, status=200)
+            return Response(serializer.data, status=201)
         else:
             answer.user_upvote.remove(request.user)
-            answer.liked-=1
-            
+           # answer.liked-=1
+            answer.save()
             serializer=AnswerSerializer(answer)
-            return Response(serializer.data, status=200)
+            return Response(serializer.data, status=201)
     return Response({}, status=200)        
 
 
