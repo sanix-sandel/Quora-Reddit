@@ -135,12 +135,19 @@ No answer yet .
          b=parseInt(nombre.innerHTML)+1
          nombre.innerHTML=b
          console.log('liked')
+        
+         nombre.setAttribute("data-action", "unlike");
+         action=(nombre).getAttribute("data-action");
+         console.log(action)
          //handleLike(id=id, action=action);
          
       }else{
          b=parseInt(nombre.innerHTML)-1
          nombre.innerHTML=b
-         console.log('liked')
+         console.log('unliked')
+         nombre.setAttribute("data-action", "like");
+         action=(nombre).getAttribute("data-action");
+         console.log(action)
       }
       
       handleLike(id=id, action=action);
@@ -150,8 +157,7 @@ No answer yet .
 
 
 function handleLike(id, action){
-    console.log(id)
-    console.log('wher is the answer ?')
+    
     const url=`/api/answer/${id}/like/`;
     const method="POST"
     
@@ -159,8 +165,7 @@ function handleLike(id, action){
         id:id,
         action:action
     })
-    console.log(data);
-    console.log(url);
+    
 
     const xhr=new XMLHttpRequest()
     const csrftoken=getCookie('csrftoken');
@@ -172,7 +177,7 @@ function handleLike(id, action){
     
     xhr.onload=function(){
        
-        console.log(data);
+       // console.log(data);
     }
     xhr.send(data)
     return 

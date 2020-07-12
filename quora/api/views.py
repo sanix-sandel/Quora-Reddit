@@ -66,11 +66,13 @@ def like(request, *args, **kwargs):
         if action=="like":
             answer.user_upvote.add(request.user)
             answer.liked+=1
+            
             serializer=AnswerSerializer(answer)
             return Response(serializer.data, status=200)
         else:
             answer.user_upvote.remove(request.user)
             answer.liked-=1
+            
             serializer=AnswerSerializer(answer)
             return Response(serializer.data, status=200)
     return Response({}, status=200)        
