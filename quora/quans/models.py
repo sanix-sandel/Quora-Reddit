@@ -52,6 +52,10 @@ class Answer(models.Model):
                                         related_name='answers_upvoted')
     likes=models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering=('-likes',)
+
+
     @property
     def liked(self):
         return self.likes

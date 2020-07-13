@@ -145,7 +145,9 @@ color: #fff !important;
 background-color: #b92b27 !important;
 }
 .nav-pills .nav-link:hover{
-background:#edf2f6;
+color: #fff !important;
+background-color: #b92b27;
+
 }
 .btn-light{
 border-color: #dae0e5 !important;
