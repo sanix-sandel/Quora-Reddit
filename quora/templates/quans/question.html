@@ -78,7 +78,7 @@
         </p>
         <div class="post-additional-info inline-items">
            <p>
-               <button onclick="LikeButton('{{a.id}}')" class="btn btn-sm btn-light">
+               <button onclick="LikeButton('{{a.id}}')" class="btn btn-sm btn-light" {% if not user.is_authenticated %}disabled{% endif %}>
                <span  class="fa fa-heart" id='{{a.id}}' data-action="{% if request.user in a.user_upvote.all %}un{% endif %}like">
                   {% with n=a.user_upvote.count %}
                     {{n}}

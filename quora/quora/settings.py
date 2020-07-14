@@ -29,13 +29,14 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL='accounts.MyUser'
 
+"""
 CACHES={
     'default':{
         'BACKEND':'django.core.cache.backends.memcached.MemcachedCache',
         'LOCATION':'127.0.0.1:11211',
     }
 }
-
+"""
 
 # Application definition
 
@@ -47,11 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
    # 'memcache_status',
 
     'crispy_forms',
     'corsheaders',
+    'allauth',
+    'allauth.account',
     'rest_framework',
     
 
@@ -63,11 +67,15 @@ INSTALLED_APPS = [
     'api',
     #'channels',
     
-    
-
-
 
 ]
+
+SITE_ID=1
+
+AUTHENTICATION_BACKENDS=(
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -97,12 +105,6 @@ if DEBUG:
         'rest_framework.renderers.BrowsableAPIRender',
     ]
 
-#DEFAULT_RENDER_CLASSES=[
-#    'rest_framework.renderers.JSONRender',
-#]
-
-#if DEBUG:
-#    DEFAULT_RENDER_CLASSES
 
 """REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -131,14 +133,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'quora.wsgi.application'
 
-#CHANNEL_LAYERS={
-#    'default':{
-#        'BACKEND':'channels_redis.core.RedisChannelLayer',
-#        'CONFIG':{
-#            'hosts':[('127.0.0.1', 6379)],
-#        },
-#    },
-#}
 
 
 # Database
@@ -206,10 +200,16 @@ MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
 MEDIA_URL='/media/'
 
 
+#For allauth
+ACCOUNT_USERNAME_REQUIRED=False
+ACCOUNT_SESSION_REMEMBER=True
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_AUTHENTICATION_METHOD='email'
+
 LOGIN_REDIRECT_URL='home'
 LOGOUT_REDIRECT_URL='home'
-LOGIN_URL='login'
-LOGOUT_URL='logout'
+LOGIN_URL='account_login'
+LOGOUT_URL='account_logout'
 
 
 CRISPY_TEMPLATE_PACK='bootstrap4'
