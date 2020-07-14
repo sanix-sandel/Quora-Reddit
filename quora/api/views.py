@@ -79,6 +79,28 @@ def like(request, *args, **kwargs):
     return Response({}, status=200)        
 
 
+@api_view(['POST'])
+def add_or_remove(request, *args, **kwargs):
+    serializer=UserActionSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        data=serializer.validated_data
+        user_id=data.get("user_id")
+        group_id=data.get("group_id")
+        action=data.get("action")
+        user=get_object_or_404(MyUser, id=user_id)
+        groupe=get_object_or_404(Groupe, id=group_id)
+        if action=="join":
+            groupe.member.add(user)
+            serializer=UserSerializer(groupe)
+            return Response(serializer.data, status=201)
+        else:
+            serializer=UserSerializer(groupe)
+            groupe.member.remove(user)
+            return Response(serializer.data, status=201)
+        groupe.save()          
+
+    return Response({}, status=200)    
+
 
 
 @api_view(['POST'])

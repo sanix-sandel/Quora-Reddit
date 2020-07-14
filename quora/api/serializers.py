@@ -35,6 +35,10 @@ class AnswerActionSerializer(serializers.Serializer):
     id=serializers.IntegerField()    
     action=serializers.CharField()
 
+class UserActionSerializer(serializers.Serializer):
+    id=serializers.IntegerField()    
+    action=serializers.CharField()    
+
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Action
