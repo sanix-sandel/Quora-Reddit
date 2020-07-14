@@ -81,25 +81,48 @@ def like(request, *args, **kwargs):
 
 @api_view(['POST'])
 def add_or_remove(request, *args, **kwargs):
-    serializer=UserActionSerializer(data=request.data)
+    serializer=GroupActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         data=serializer.validated_data
         user_id=data.get("user_id")
-        group_id=data.get("group_id")
+        group_id=data.get("id")
         action=data.get("action")
         user=get_object_or_404(MyUser, id=user_id)
         groupe=get_object_or_404(Groupe, id=group_id)
-        if action=="join":
+        if action=="accept":
             groupe.member.add(user)
-            serializer=UserSerializer(groupe)
+            groupe.save() 
+            serializer=GroupSerializer(groupe)
             return Response(serializer.data, status=201)
         else:
-            serializer=UserSerializer(groupe)
             groupe.member.remove(user)
+            groupe.save() 
+            serializer=GroupSerializer(groupe)
             return Response(serializer.data, status=201)
-        groupe.save()          
+    return Response({}, status=200) 
 
-    return Response({}, status=200)    
+@api_view(['POST'])
+def join_or_leave(request, *args, **kwargs):
+    serializer=GroupActionSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        data=serializer.validated_data
+        #user_id=data.get("user_id")
+        group_id=data.get("id")
+        action=data.get("action")
+        user=request.user
+        groupe=get_object_or_404(Groupe, id=group_id)
+        if action=='join':
+            groupe.member.add(user)
+            groupe.save()
+            serializer=GroupSerializer(groupe)
+            return Response(serializer.data, status=201)
+        else:
+            groupe.member.remove(user)
+            groupe.save()
+            serializer=GroupSerializer(groupe)
+            return Response(serializer.data, status=201)
+    return Response({}, status=200)        
+
 
 
 

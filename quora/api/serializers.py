@@ -35,9 +35,9 @@ class AnswerActionSerializer(serializers.Serializer):
     id=serializers.IntegerField()    
     action=serializers.CharField()
 
-class UserActionSerializer(serializers.Serializer):
-    id=serializers.IntegerField()    
-    action=serializers.CharField()    
+
+
+
 
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,3 +60,8 @@ class GroupeSerializer(serializers.ModelSerializer):
             'title',
             'description'
         )        
+
+class GroupActionSerializer(serializers.Serializer):
+    id=serializers.IntegerField()    
+    action=serializers.CharField()    
+    user_id=serializer.IntegerField()    
