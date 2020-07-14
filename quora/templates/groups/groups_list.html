@@ -28,21 +28,10 @@
 
       <div class="post-additional-info inline-items">
          <p>
-           {% with user=request.user %}
-            {% if g in user.a_group.all %}
-              <a href="{% url "join_or_leave" id=g.id action='leave' %}" class="btn btn-sm btn-light">
-                <span class="fa fa-sign-out"></span> Leave
-              </a>
-            {% else %}
-              <a href="{% url "join_or_leave" id=g.id action='join' %}" class="btn btn-sm btn-light">
-                  <span class="fa fa-user-plus"></span> Join
-              </a>
-            {% endif %}
-
-           {% endwith %}
-
-
-
+  
+              <button onclick="ActionButton('{{g.id}}')" id='{{g.id}}' data-action="{% if g in request.user.a_group.all %}leave{% endif %}join" class="btn btn-sm btn-light">
+                <span class="fa fa-sign-out"></span>{% if g in request.user.a_group.all %} Leave{% else %}Join{% endif %}
+              </button>
          </p>
 
       </div>
@@ -51,4 +40,88 @@
 
 
  {% endfor %}
+ {{user.id |json_script:"user_id"}}
+<script>
+ 
+  var user_id = JSON.parse(document.getElementById('user_id').textContent);
+  
+
+  function getCookie(name) {//Pour le CSRF
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function ActionButton(id){
+  
+  nombre=document.getElementById(id)
+  action=(nombre).getAttribute("data-action");
+  user_id=user_id
+  
+  if (action==='join'){
+    act=nombre.innerHTML
+    nombre.innerHTML="Leave"
+    
+    console.log('joined')
+    handleAction(id=id, user_id=user_id, action=action);
+    nombre.setAttribute("data-action", "leave");
+    action=(nombre).getAttribute("data-action");
+    console.log(action)
+        
+         
+  }else{
+    act=nombre.innerHTML
+    nombre.innerHTML="Join"
+    
+
+    console.log('left')
+    handleAction(id=id, user_id=user_id, action=action);
+    nombre.setAttribute("data-action", "join");
+    action=(nombre).getAttribute("data-action");
+    console.log(action)
+         
+  }
+            
+}
+
+
+function handleAction(id, user_id, action){
+    
+    const url=`/api/user/${action}/group/`;
+    const method="POST"
+    
+    const data=JSON.stringify({
+        id:id,
+        action:action, 
+        user_id:user_id
+    })
+    
+
+    const xhr=new XMLHttpRequest()
+    const csrftoken=getCookie('csrftoken');
+    xhr.open(method, url)
+    xhr.setRequestHeader("Content-Type", "application/json")
+    xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+    xhr.setRequestHeader("X-CSRFToken", csrftoken)
+    
+    xhr.onload=function(){
+       
+       // console.log(data);
+    }
+    xhr.send(data)
+    return 
+}
+</script>
+
 {% endblock %}

@@ -53,7 +53,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             '',
         )               
 
-class GroupeSerializer(serializers.ModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model=Groupe
         fields=(
@@ -64,4 +64,4 @@ class GroupeSerializer(serializers.ModelSerializer):
 class GroupActionSerializer(serializers.Serializer):
     id=serializers.IntegerField()    
     action=serializers.CharField()    
-    user_id=serializer.IntegerField()    
+    user_id=serializers.IntegerField()    

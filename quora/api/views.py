@@ -12,8 +12,9 @@ from .serializers import (
     MyUserSerializer,
     ActionSerializer,
     NotificationSerializer,
-    GroupeSerializer,
-    AnswerActionSerializer
+    GroupSerializer,
+    AnswerActionSerializer, 
+    GroupActionSerializer
 )
 
 from rest_framework import serializers
@@ -101,6 +102,7 @@ def add_or_remove(request, *args, **kwargs):
             return Response(serializer.data, status=201)
     return Response({}, status=200) 
 
+
 @api_view(['POST'])
 def join_or_leave(request, *args, **kwargs):
     serializer=GroupActionSerializer(data=request.data)
@@ -110,7 +112,10 @@ def join_or_leave(request, *args, **kwargs):
         group_id=data.get("id")
         action=data.get("action")
         user=request.user
-        groupe=get_object_or_404(Groupe, id=group_id)
+        groupe=Groupe.objects.filter(id=group_id) 
+        if not groupe.exists():
+            return Response({}, status=404)
+        groupe=groupe.first()    
         if action=='join':
             groupe.member.add(user)
             groupe.save()
