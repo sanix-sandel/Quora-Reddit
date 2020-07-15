@@ -7,7 +7,7 @@
 {% for m in groupe.member.all %}
    <tr>
      <th href="{{m.get_absolute_url}}">{{m.username}}</th>
-     <td>{{ product.title }}</td>
+     <td class="post-additional-info inline-items">Accept</td>
    </tr>
 {% endfor %}  
 </table>
@@ -26,11 +26,11 @@
        </div>
 
        <div class="post-additional-info inline-items">
-         {% if is_owner %}
+         {% comment %}{% if is_owner %}
             <p>
-              <a href="{% url 'remove_member' g_id=groupe.id id=m.id %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Remove</a>
+              <a href="{% url 'remove_member' id=m.id g_id=groupe.id %}" class="btn btn-sm btn-light"><span class="fa fa-sign-out"></span> Remove</a>
             </p>
-          {% endif %}
+         {% endif %}{% endcomment %}
        </div>
        <div class="more">
           <a href="#">
