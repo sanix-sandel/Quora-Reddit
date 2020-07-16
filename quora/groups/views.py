@@ -65,6 +65,7 @@ def GroupeCreateView(request):
             new_groupe.save()
             new_groupe.member.add(owner)#add the creator as a member
             #owner.groups.add(groupe)
+            return redirect('list_groups')
     else:
         form=GroupeForm(request.GET)
     return render(request, 'groups/create_group.html', {'form':form})
@@ -92,6 +93,7 @@ def join_or_leave(request, id, action):
         if groupe.private:
             create_action(request.user, ' wants to join ', groupe)
             groupe.membersrequested.members.add(request.user)
+            groupe.save()
         else:
             groupe.member.add(request.user)
             group, created=Group.objects.get_or_create(name='groups_members')
@@ -110,24 +112,30 @@ def GroupeDetail(request, id):
     members=groupe.member.all()
     members_request=get_object_or_404(MembersRequested, groupe=groupe).members.all()
     questions_request=get_object_or_404(QuestionRequestList, groupe=groupe).questions.all()
+    questions=Question.objects.filter(groupe=groupe)
+    print(questions)
     if request.user in members or request.user==groupe.owner:
         if request.method=='POST':
             form=QuestionForm(request.POST)
             if form.is_valid():
                 newq=form.save(commit=False)
+                newq.submitted_by=request.user
                 questionrequestlist=get_object_or_404(QuestionRequestList,
                 groupe=groupe)
 
                 #newq.groupe=groupe
-                newq.submitted_by=request.user
+                
                 if groupe.owner==request.user or not groupe.private:
                     newq.groupe=groupe
                     newq.save()
+                    
                 else:
-
+                    
                     newq.save()
+                    print('savedooo')
                     questionrequestlist.questions.add(newq)
-
+                    questionrequestlist.save()
+                print(newq)
                 return redirect(groupe.get_absolute_url())
         else:
             form=QuestionForm()
@@ -232,5 +240,6 @@ def approve_question(request, group_id, question_id):
 def shared(request, q_id, g_id):
     question=get_object_or_404(Question, id=q_id)
     groupe=get_object_or_404(Groupe, id=g_id)
-    
+    question.groupe=groupe
+    question.save()
     return redirect('home')

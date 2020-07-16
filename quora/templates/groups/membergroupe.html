@@ -5,9 +5,10 @@
 
 <table class="table">
 {% for m in groupe.member.all %}
-   <tr>
-     <th href="{{m.get_absolute_url}}">{{m.username}}</th>
-     <td class="post-additional-info inline-items">Accept</td>
+   <tr id="{{m.id}}">
+     
+     <th href="#" >{{m.username}}</th>
+     <td onclick="GetData('{{groupe.id}}', '{{m.id}}')" class="post-additional-info inline-items">Remove</td>
    </tr>
 {% endfor %}  
 </table>
@@ -33,6 +34,7 @@
          {% endif %}{% endcomment %}
        </div>
        <div class="more">
+          
           <a href="#">
           <i class="fa fa-ellipsis-v"></i>
           </a>
@@ -43,5 +45,84 @@
  </article>
  
 </div>
+
+<script>
+
+
+  function getCookie(name) {//Pour le CSRF
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+/*
+   function load_members(){
+      const xhr=new XMLHttpRequest()
+      const url=;
+      const method='GET'
+      const responseType="json"
+      xhr.open(method, url)
+
+      xhr.onlaod=function(){
+         const serverResponse=xhr.response
+         const liste=serverResponse
+         console.log(liste)
+      }
+      xhr.send()
+   }
+   load_members();
+*/
+   function GetData(id, user_id){
+      id=id
+      user_id=user_id
+      console.log(id)
+      
+      ActionButton(id, user_id)
+      div=document.getElementById(id)
+      div.innerHTML="removed already"
+    /*  $(document).ready(function(){
+         $(div).click(function(){
+            $("#id").hide();
+         })
+      })*/
+
+   }
+
+   function ActionButton(id, user_id){
+      const url='/api/group/remove/member/';
+      const method="POST"
+      const data=JSON.stringify({
+         id:id,
+         user_id:user_id,
+         action:"remove"
+      })
+      const xhr=new XMLHttpRequest()
+      const csrftoken=getCookie('csrftoken');
+      xhr.open(method, url)
+      xhr.setRequestHeader("Content-Type", "application/json")
+      xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+      xhr.setRequestHeader("X-CSRFToken", csrftoken)
+
+      xhr.onload=function(){
+         console.log("Before sending ")
+         console.log(data)
+      }
+      xhr.send(data)
+      return 
+
+   }
+
+</script>
 
 {% endblock %}

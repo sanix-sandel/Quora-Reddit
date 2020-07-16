@@ -25,7 +25,7 @@ from actions.models import Notification
 from groups.models import Groupe
 
 from rest_framework import generics
-
+from actions.utils import create_action
 
 
 class QuestionList(generics.ListAPIView):
@@ -117,7 +117,12 @@ def join_or_leave(request, *args, **kwargs):
             return Response({}, status=404)
         groupe=groupe.first()    
         if action=='join':
-            groupe.member.add(user)
+            if groupe.private:
+                create_action(request.user, ' wants to join ', groupe)
+                groupe.membersrequested.members.add(request.user)
+                
+            else:
+                 groupe.member.add(user)
             groupe.save()
             serializer=GroupSerializer(groupe)
             return Response(serializer.data, status=201)
@@ -129,6 +134,33 @@ def join_or_leave(request, *args, **kwargs):
     return Response({}, status=200)        
 
 
+@api_view(['POST'])
+def remove_member(request, *args, **kwargs):
+    serializer=GroupActionSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        data=serializer.validated_data
+        id=data.get("id")
+        user_id=data.get("user_id")
+        groupe=Groupe.objects.filter(id=id)
+        user=MyUser.objects.filter(id=user_id)
+        if not (groupe.exists() or user.exists()):
+            return Response({}, status=404)
+        groupe=groupe.first()
+        user=user.first()
+        groupe.member.remove(user)    
+        groupe.save()
+        serializer=GroupSerializer(groupe)
+        return Response(serializer.data, status=201)
+    return Response({}, status=200)    
+
+
+
+def RemoveMember(request, id, g_id):
+    user=get_object_or_404(MyUser, id=id)
+    groupe=get_object_or_404(Groupe, id=id)
+    groupe.member.remove(user)
+    groupe.save()
+    return redirect('groupe_members', id=g_id)
 
 
 @api_view(['POST'])

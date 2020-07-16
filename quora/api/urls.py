@@ -10,4 +10,5 @@ urlpatterns=[
     path('users-list/', views.UserList.as_view()),
     path('answer/<int:id>/like/', views.like),
     path('user/<str:action>/group/', views.join_or_leave),
+    path('group/remove/member/', views.remove_member),
 ]

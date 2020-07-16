@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'allauth',
     'allauth.account',
+
+   # 'haystack',#for searching
+
     'rest_framework',
     
 
@@ -112,6 +115,16 @@ if DEBUG:
         'rest_framework.authentication.SessionAuthentication',
     ]
 }"""
+
+"""
+HAYSTACK_CONNECTIONS={
+    'default':{
+        'ENGINE':'haystack.backends.elasticsearch_backend.Elasticsearch5SearchEngine',
+        'URL':'http://127.0.0.1:9200/',
+        'INDEX_NAME':'haystack',
+    }
+}"""
+
 
 TEMPLATES = [
     {
