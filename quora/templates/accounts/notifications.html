@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
-    {% for action in actions %}
-      <p>
+
+
+<table class="table">
+  {% for action in actions %}
+    <tr>
+      <th>
         {{action.user}}  {{action.verb}}
-        <a href={{action.target.get_absolute_url}}>
-          {{action.target}}
-        </a>
-      </p>
-    {% endfor %}
-{% endblock %}
+        <a href="{{action.target.get_absolute_url}}">
+        {{action.target.title}}
+      </th>
+  {% endfor %}
+    </tr>
+  
+</table>    

@@ -31,16 +31,14 @@
       {{user.about}}
     </p>
     <div class="post-additional-info inline-items">
-       <p>
+      {% ifnotequal request.user user %}
+         <p>
 
-          <a href="{% url "follow" id=user.id %}" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Follow</a>
-            <a href="#" class="btn btn-sm btn-light"><i class="fa fa-retweet"></i> Block</a>
-       </p>
-       <p class="social-icons">
-          <a href="#" class="btn btn-sm btn-light"><i class="fa fa-facebook"></i></a>
-          <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-twitter"></i></a>
-          <a href="#" class="btn btn-sm btn-light"> <i class="fa fa-share"></i></a>
-       </p>
+            <a href="{% url "follow" id=user.id %}" class="btn btn-sm btn-light"><i class="fa fa-users"></i> Follow</a>
+               <a href="#" class="btn btn-sm btn-light"><i class="fa fa-ban"></i> Block</a>
+         </p>
+      {% endifnotequal %}   
+      
     </div>
  </article>
 </div>

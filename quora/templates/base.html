@@ -71,16 +71,17 @@
                   <h6 class="my-4">Feeds</h6>
                   <hr>
                   <div class="nav flex-column nav-pills nav-stacked" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                     <a class="nav-link" data-toggle="pill" href="#"> Menu</a>
+                  <!--  <a class="nav-link" data-toggle="pill" href="#"> Menu</a>--> 
                      <a class="nav-link" href="{% url "create_group" %}" >Create a group</a>
                      <a class="nav-link"  href="{% url 'user_groups' %}" >My groups</a>
                      <a class="nav-link"  href="{% url "list_groups" %}"> groups</a>
-                     <a class="nav-link" data-toggle="pill" href="#">Bookmarked Answers</a>
                      <a class="nav-link"  href="{% url "personal_notifs" %}">Person Notifications</a>
+                    <!-- <a class="nav-link" data-toggle="pill" href="#">Bookmarked Answers</a>
+                     
                      <a class="nav-link" data-toggle="pill" href="#">Payment Gateways</a>
                      
                      <a class="nav-link" data-toggle="pill" href="#">E-commerce</a>
-                     <a class="nav-link" href="#">Android Applications</a>
+                     <a class="nav-link" href="#">Android Applications</a>-->
                   
                   </div>
                </div>
@@ -101,10 +102,10 @@
                   <h6 class="my-4">Improve Your Feed</h6>
                   <hr>
                   <div class="nav flex-column nav-pills nav-stacked" id="v-pills-tab"  aria-orientation="vertical">
-                     <a class="nav-link"  data-toggle="pill" href="#"  >  Upvote 5 more good answers</a>
+                    <!--<a class="nav-link"  data-toggle="pill" href="#"  >  Upvote 5 more good answers</a>
                      <a class="nav-link"  data-toggle="pill" href="#"  >Ask your first question</a>
                      <a class="nav-link" data-toggle="pill" href="#"   >Add 3 credentials</a>
-                     <a class="nav-link" data-toggle="pill" href="#">Answer a question</a>
+                     <a class="nav-link" data-toggle="pill" href="#">Answer a question</a>--> 
                      {% if user.is_authenticated %}
                         <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
                      {% else %}

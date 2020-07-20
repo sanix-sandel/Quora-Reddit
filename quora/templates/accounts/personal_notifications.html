@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    {% for notification in notifications %}
-      <p>
-         {{notification.user}} {{notification.verb}}
-        <a href="#">
-
-        </a>
-      </p>
-    {% endfor %}
+<table class="table">
+  {% for notification in notifications %}
+    <tr>
+      <th>
+        {{notification.user}}  {{notification.verb}}
+        <a href="{{action.target.get_absolute_url}}">
+        
+      </th>
+  {% endfor %}
+    </tr>
+  
+</table>  
 {% endblock %}
+  
