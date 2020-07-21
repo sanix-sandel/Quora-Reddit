@@ -11,5 +11,4 @@ urlpatterns=[
     path('answer/<int:id>/like/', views.like),
     path('user/<str:action>/group/', views.join_or_leave),
     path('group/remove/member/', views.remove_member),
-    path('group/accept/member/', views.accept_member),
 ]

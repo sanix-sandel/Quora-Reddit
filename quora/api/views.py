@@ -81,22 +81,25 @@ def like(request, *args, **kwargs):
 
 
 @api_view(['POST'])
-def accept_member(request, *args, **kwargs):
+def add_or_remove(request, *args, **kwargs):
     serializer=GroupActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         data=serializer.validated_data
         user_id=data.get("user_id")
         group_id=data.get("id")
-        #action=data.get("action")
+        action=data.get("action")
         user=get_object_or_404(MyUser, id=user_id)
         groupe=get_object_or_404(Groupe, id=group_id)
-        groupe.member.add(user)
-        request_list=get_object_or_404(MembersRequested, groupe=groupe)
-        request_list.members.remove(user)
-        groupe.save()
-        request_list.save()
-        serializer=GroupSerializer(groupe)
-        return Response(serializer.data, status=201)
+        if action=="accept":
+            groupe.member.add(user)
+            groupe.save() 
+            serializer=GroupSerializer(groupe)
+            return Response(serializer.data, status=201)
+        else:
+            groupe.member.remove(user)
+            groupe.save() 
+            serializer=GroupSerializer(groupe)
+            return Response(serializer.data, status=201)
     return Response({}, status=200) 
 
 
@@ -151,6 +154,13 @@ def remove_member(request, *args, **kwargs):
     return Response({}, status=200)    
 
 
+
+def RemoveMember(request, id, g_id):
+    user=get_object_or_404(MyUser, id=id)
+    groupe=get_object_or_404(Groupe, id=id)
+    groupe.member.remove(user)
+    groupe.save()
+    return redirect('groupe_members', id=g_id)
 
 
 @api_view(['POST'])
