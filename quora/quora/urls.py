@@ -14,7 +14,9 @@ urlpatterns = [
     path('search/', include('searching.urls')),
   
     path('api/', include('api.urls')),
-
+    path('api-auth/', include('rest_framework.urls')), 
+    path('api/rest-auth/', include('rest_auth.urls')),#for log(in/out), passwordreset
+    path('api/rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
 
 if settings.DEBUG:

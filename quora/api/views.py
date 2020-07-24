@@ -24,16 +24,20 @@ from actions.models import Action
 from actions.models import Notification
 from groups.models import Groupe
 
-from rest_framework import generics
+from rest_framework import generics, permissions
 from actions.utils import create_action
 
 
+
+
 class QuestionList(generics.ListAPIView):
+    permission_classes=(permissions.IsAuthenticated,)
     queryset=Question.objects.all()
     serializer_class=QuestionSerializer
     
 
 class AnswerList(generics.ListAPIView):
+    permission_classes=(permissions.IsAuthenticated,)
     queryset=Answer.objects.all()
     serializer_class=AnswerSerializer
 
