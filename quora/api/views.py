@@ -42,7 +42,14 @@ class UserList(generics.ListAPIView):
     serializer_class=MyUserSerializer 
 
 
+class ActionList(generics.ListAPIView):
+    queryset=Action.objects.all()
+    serializer_class=ActionSerializer
 
+
+class GroupList(generics.ListAPIView):
+    queryset=Groupe.objects.all()
+    serializer_class=GroupSerializer    
 
 @api_view(['GET'])
 def questions_list(request):

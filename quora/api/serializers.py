@@ -10,11 +10,17 @@ class MyUserSerializer(serializers.ModelSerializer):
         model=MyUser
         fields=(
             'id',
+            'is_superuser',
             'username',
-            'profile_image',
             'email',
+            'date_of_birth',
+            'profile_image',
             'about',
-
+            'is_active',
+            'is_admin',
+            'groups',
+            'following',
+            'questions_submitted'
         )
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -22,6 +28,11 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Question
         fields='__all__'
+
+class QuestionGroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Question
+        fields='__all__'        
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -42,24 +53,24 @@ class AnswerActionSerializer(serializers.Serializer):
 class ActionSerializer(serializers.ModelSerializer):
     class Meta:
         model=Action
-        fields=(
-            '',
-        ) 
+        fields='__all__'
+
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model=Notification
-        fields=(
-            '',
-        )               
+        fields='__all__'     
+
 
 class GroupSerializer(serializers.ModelSerializer):
+    owner=MyUserSerializer()
+    #member=MyUserSerializer(many=True, read_only=True)
+    questions=QuestionSerializer(many=True, read_only=True)
+    #questions=serializers.StringRelatedField(source='question.title')
     class Meta:
         model=Groupe
-        fields=(
-            'title',
-            'description'
-        )        
+        fields=('__all__')
+
 
 class GroupActionSerializer(serializers.Serializer):
     id=serializers.IntegerField()    
